@@ -1,3 +1,9 @@
+"""
+This code is not mine. I'm using it as a template on how I should
+do my version of it.
+https://github.com/danieldiekmeier/memegenerator
+"""
+
 # -*- coding: utf-8 -*-
 
 from PIL import ImageFont
