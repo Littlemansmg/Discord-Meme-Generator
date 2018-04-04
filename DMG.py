@@ -12,6 +12,7 @@ Github: https://github.com/Littlemansmg/Discord-Meme-Generator
 """
 
 from MemeFormatting import *
+from discord.ext import commands
 
 topBottomList = [
     '10-guy', 'bad-luck-brian', 'good-guy-greg', 'mocking-spongebob', 'roll-safe',
@@ -27,3 +28,23 @@ if __name__ == '__main__':
         top_bottom(memetype=meme, topString=topText, bottomString=bottomText)
     else:
         print('Sorry can\'t do that.')
+
+# ---------------- Discord code ----------------
+
+bot = commands.Bot(command_prefix=')')
+@bot.event
+async def on_ready():
+    print('Logged in as')
+    print(bot.user.name)
+    print(bot.user.id)
+    print('----------')
+
+@bot.command(name='tb')
+async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str):
+    ctx.message.delete()
+    if memeType in topBottomList:
+        await ctx.send(file=top_bottom(memeType, topString, bottomString))
+    else:
+        await ctx.send('Sorry, not a memetype.')
+
+bot.run('token')
