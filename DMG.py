@@ -11,20 +11,19 @@ Pillow:
 Github: https://github.com/Littlemansmg/Discord-Meme-Generator
 """
 
-import PIL.Image as Image
-import PIL.ImageFont as IFont
-import PIL.ImageDraw as IDraw
+from MemeFormatting import *
 
-def make_meme(memetype):
-    with Image.open(memetype + ".jpg") as img:
-        font = IFont.truetype("impact.ttf", 30)
-        edit = IDraw.Draw(img)
-
-        edit.text((10,10),"When pillow Works", font=font)
-        img.save(memetype + '_new.jpg')
+topBottomList = [
+    '10-guy', 'bad-luck-brian', 'good-guy-greg', 'mocking-spongebob', 'roll-safe',
+    'simply', 'successkid', 'willy-wonka']
 
 if __name__ == '__main__':
 
-    meme = 'successkid'
+    meme = input("What's the Meme type? ")
+    if meme in topBottomList:
+        topText = input('Top Text: ')
+        bottomText = input('Bottom Text: ')
 
-    make_meme(meme)
+        top_bottom(memetype=meme, topString=topText, bottomString=bottomText)
+    else:
+        print('Sorry can\'t do that.')

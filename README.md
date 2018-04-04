@@ -3,10 +3,13 @@ This program is built to allow discord users to type a command and then fill in 
 This image will be created and then posted in the channel that the message came from.
 
 ## Current Functionality
-* None
+* Program can search for local images with names
 
 ## TODO
-* Everything
+* Formatting
+  * This is a side project in itself
+* Implement discord.py.
+  * Look into discord-rewrite.py
 
 ## Getting Started
 Nothing has been started
@@ -14,3 +17,4 @@ Nothing has been started
 ## Built With
 * [Discord.py](https://github.com/Rapptz/discord.py) - Discord API wrapper to run a discord bot in Python
   * Not implemented yet, but will be used
+* [Pillow] (https://pillow.readthedocs.io/en/3.0.x/index.html)
