@@ -11,11 +11,16 @@ Pillow:
 Github: https://github.com/Littlemansmg/Discord-Meme-Generator
 """
 
-import PIL.ImageFilter as IFilter
 import PIL.Image as Image
+import PIL.ImageFont as IFont
+import PIL.ImageDraw as IDraw
 
 def make_meme(memetype):
     with Image.open(memetype + ".jpg") as img:
+        font = IFont.truetype("impact.ttf", 30)
+        edit = IDraw.Draw(img)
+
+        edit.text((10,10),"When pillow Works", font=font)
         img.save(memetype + '_new.jpg')
 
 if __name__ == '__main__':
