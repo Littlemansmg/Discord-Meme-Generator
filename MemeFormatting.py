@@ -55,4 +55,4 @@ def top_bottom(memetype, topString, bottomString):
             img.save('New/' + memetype + '_new.jpg')
     except FileNotFoundError:
         print('Sorry, that template doesn\'t exist.')
-    return
+    return 'New/' + memetype + '_new.jpg'
