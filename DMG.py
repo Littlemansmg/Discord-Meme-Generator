@@ -37,9 +37,9 @@ async def on_ready():
 
 @bot.event
 async def on_command_error(ctx, error):
-    destination = ctx.message.channel
-    if isinstance(error, commands.MissingRequiredArgument):
-        await bot.say(destination, "You are missing some arguments.")
+    destination = error.message.channel
+    if isinstance(ctx, commands.MissingRequiredArgument):
+        await bot.send_message(destination, "You are missing some arguments.")
 
 @bot.command(pass_context=True, name='tb')
 async def topAndBottom(ctx, memeType, topString, bottomString):
