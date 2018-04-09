@@ -11,6 +11,8 @@ Pillow:
 Github: https://github.com/Littlemansmg/Discord-Meme-Generator
 """
 
+
+
 from MemeFormatting import *
 from discord.ext import commands
 
@@ -23,20 +25,15 @@ topBottomList = [
 with open('token.txt') as token:
     token = token.readline()
 
-
 bot = commands.Bot(command_prefix=')')
+
 @bot.event
 async def on_ready():
-
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
     print('----------')
     # bot.change_presence(game = ")help for help")
-
-@bot.event()
-async def on_error(event, *args, **kwargs):
-    await bot.say("YOU FUCKED UP")
 
 @bot.command(pass_context=True, name='tb')
 async def topAndBottom(ctx, memeType, topString, bottomString):
