@@ -35,15 +35,16 @@ async def on_ready():
     print('----------')
     # bot.change_presence(game = ")help for help")
 
+@bot.event
+async def on_command_error(error, ctx):
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.say("You are missing some arguments.")
+
 @bot.command(pass_context=True, name='tb')
 async def topAndBottom(ctx, memeType, topString, bottomString):
-    if commands.MissingRequiredArgument:
-        await bot.say("Sorry, you need to fill in all 3 paramaters with text or (\"\"). Ex. `)tb bad-luck-brian "
-                      "\"Reads help for commands\" "
-                      "\"Still can't type them in right\"")
-
     destination = ctx.message.channel
     message = ctx.message
+
     await bot.delete_message(message)
 
     if memeType in toplist:
