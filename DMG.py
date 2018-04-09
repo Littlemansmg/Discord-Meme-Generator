@@ -36,9 +36,10 @@ async def on_ready():
     # bot.change_presence(game = ")help for help")
 
 @bot.event
-async def on_command_error(error, ctx):
+async def on_command_error(ctx, error):
+    destination = ctx.message.channel
     if isinstance(error, commands.MissingRequiredArgument):
-        await ctx.say("You are missing some arguments.")
+        await bot.say(destination, "You are missing some arguments.")
 
 @bot.command(pass_context=True, name='tb')
 async def topAndBottom(ctx, memeType, topString, bottomString):
