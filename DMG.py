@@ -16,11 +16,11 @@ Github: https://github.com/Littlemansmg/Discord-Meme-Generator
 from MemeFormatting import *
 from discord.ext import commands
 
-toplist = []
+toplist = ['mocking-spongebob']
 bottomlist = []
 
 topBottomList = [
-    '10-guy', 'bad-luck-brian', 'good-guy-greg', 'mocking-spongebob', 'roll-safe',
+    '10-guy', 'bad-luck-brian', 'good-guy-greg', 'roll-safe',
     'simply', 'successkid', 'willy-wonka']
 
 with open('token.txt') as token:
