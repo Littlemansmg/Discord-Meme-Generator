@@ -1,3 +1,4 @@
+# https://github.com/danieldiekmeier/memegenerator
 
 import PIL.Image as Image
 import PIL.ImageFont as IFont
