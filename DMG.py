@@ -126,4 +126,4 @@ async def listMemes(ctx):
     await bot.send_message(destination, 'Bottom text only: ' + tmpbottom)
     await bot.send_message(destination, 'Top and Bottom text: ' + tmptb)
 
-bot.run(token)
+bot.run(token.strip())
