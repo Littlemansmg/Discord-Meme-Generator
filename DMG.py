@@ -25,7 +25,7 @@ import discord
 
 # I currently have some bad logging, but it works for now.
 # will try to implement this later.
-# import logging
+import logging
 
 # memes that only use )top (top text only)
 toplist = ['mocking-spongebob']
@@ -59,11 +59,11 @@ bottomhelp = 'Prints bottom text memes.\n' \
 # ---------------------------HELP------------------------------------
 
 # http://discordpy.readthedocs.io/en/latest/logging.html
-# logger = logging.getLogger('discord')
-# logger.setLevel(logging.DEBUG)
-# handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
-# handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-# logger.addHandler(handler)
+logger = logging.getLogger('discord.txt')
+logger.setLevel(logging.DEBUG)
+handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
+handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
+logger.addHandler(handler)
 
 # command prefix
 bot = commands.Bot(command_prefix=')')
