@@ -20,7 +20,7 @@ def top_bottom(memetype, topString, bottomString):
         with Image.open(os.path.relpath('Templates/' + memetype + '.jpg')) as img:
             size = img.size
             fontSize = int(size[1] / 5)
-            font = IFont.truetype("impact.ttf", fontSize)
+            font = IFont.truetype("/Library/Fonts/Impact.ttf", fontSize)
 
             edit = IDraw.Draw(img)
 
@@ -30,7 +30,7 @@ def top_bottom(memetype, topString, bottomString):
             bottomTextSize = font.getsize(bottomString)
             while topTextSize[0] > size[0] - 20 or bottomTextSize[0] > size[0] - 20:
                 fontSize = fontSize - 1
-                font = IFont.truetype("impact.ttf", fontSize)
+                font = IFont.truetype("/Library/Fonts/Impact.ttf", fontSize)
                 topTextSize = font.getsize(topString)
                 bottomTextSize = font.getsize(bottomString)
 
