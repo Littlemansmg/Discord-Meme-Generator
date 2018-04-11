@@ -16,7 +16,7 @@ def top_bottom(memetype, topString, bottomString):
                 bottomString += topString[i].lower()
 
     try:
-        with Image.open('Templates/' + memetype + '.jpg') as img:
+        with Image.open('./Templates/' + memetype + '.jpg') as img:
             size = img.size
             fontSize = int(size[1] / 5)
             font = IFont.truetype("impact.ttf", fontSize)
