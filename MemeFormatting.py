@@ -3,6 +3,7 @@
 import PIL.Image as Image
 import PIL.ImageFont as IFont
 import PIL.ImageDraw as IDraw
+import os
 import random as rand
 
 
@@ -16,7 +17,7 @@ def top_bottom(memetype, topString, bottomString):
                 bottomString += topString[i].lower()
 
     try:
-        with Image.open('./Templates/' + memetype + '.jpg') as img:
+        with Image.open(os.path.relpath('Templates/' + memetype + '.jpg')) as img:
             size = img.size
             fontSize = int(size[1] / 5)
             font = IFont.truetype("impact.ttf", fontSize)
@@ -53,7 +54,7 @@ def top_bottom(memetype, topString, bottomString):
 
             edit.text(topTextPosition, topString, (255, 255, 255), font=font)
             edit.text(bottomTextPosition, bottomString, (255, 255, 255), font=font)
-            img.save('./New/' + memetype + '_new.jpg')
+            img.save(os.path.relpath('New/' + memetype + '_new.jpg'))
     except FileNotFoundError:
         print('Sorry, that template doesn\'t exist.')
-    return './New/' + memetype + '_new.jpg'
+    return os.path.relpath('New/' + memetype + '_new.jpg')
