@@ -53,7 +53,7 @@ def top_bottom(memetype, topString, bottomString):
 
             edit.text(topTextPosition, topString, (255, 255, 255), font=font)
             edit.text(bottomTextPosition, bottomString, (255, 255, 255), font=font)
-            img.save('New/' + memetype + '_new.jpg')
+            img.save('./New/' + memetype + '_new.jpg')
     except FileNotFoundError:
         print('Sorry, that template doesn\'t exist.')
     return './New/' + memetype + '_new.jpg'
