@@ -5,5 +5,4 @@ token.txt
 *.pyc
 *.jpg
 command_log.txt
-New/mocking-spongebob_new.jpg
-New/roll-safe_new.jpg
+*_new.jpg
