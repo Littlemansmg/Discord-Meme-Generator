@@ -8,27 +8,41 @@ in the channel that the message came from.
 Pillow:
     https://pillow.readthedocs.io/en/5.1.x/
 
-Github: https://github.com/Littlemansmg/Discord-Meme-Generator
+Discord.py:
+    https://github.com/Rapptz/discord.py
+    Using the discord-rewrite.py docs:
+        http://discordpy.readthedocs.io/en/rewrite/index.html
+
+Github:
+    https://github.com/Littlemansmg/Discord-Meme-Generator
+
 """
-
-
 
 from MemeFormatting import *
 from discord.ext import commands
-import discord
 from datetime import datetime as dt
+import discord
+
+# I currently have some bad logging, but it works for now.
+# will try to implement this later.
 # import logging
 
+# memes that only use )top (top text only)
 toplist = ['mocking-spongebob']
+
+# memes that only use )bottom (bottom text only)
 bottomlist = []
 
+# memes that use )top )bottom )tb
+# TODO: Make a list for top and bottom only memes?
 topBottomList = [
     '10-guy', 'bad-luck-brian', 'good-guy-greg', 'roll-safe',
     'simply', 'successkid', 'willy-wonka']
 
+# read token file
 with open('token.txt') as token:
     token = token.readline()
-
+# ---------------------------HELP------------------------------------
 listhelp = 'Prints a list of all the memes available.'
 
 tbhelp = 'Prints top and bottom text memes.\n' \
@@ -42,23 +56,29 @@ tophelp = 'Prints top text memes.\n' \
 bottomhelp = 'Prints bottom text memes.\n' \
              'Notes: This command will only print bottomtext. It can only be used with memes that are in the ' \
              'Bottom List or Top and Bottom list. \nTEXT MUST BE IN SINGLE OR DOUBLE QUOTES.'
+# ---------------------------HELP------------------------------------
 
+# http://discordpy.readthedocs.io/en/latest/logging.html
 # logger = logging.getLogger('discord')
 # logger.setLevel(logging.DEBUG)
 # handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 # handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 # logger.addHandler(handler)
 
+# command prefix
 bot = commands.Bot(command_prefix=')')
 
+# execute when bot is logged in and ready
 @bot.event
 async def on_ready():
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
     print('----------')
+    # set what the bot is playing.
     await bot.change_presence(game = discord.Game(name = "Type )help for help"))
 
+# execute if there is an error with a command.
 @bot.event
 async def on_command_error(error, ctx):
     # NOTE: It's stated in the documentation that CTX, should always be first.
@@ -66,104 +86,131 @@ async def on_command_error(error, ctx):
     # so error will always come first.
     destination = ctx.message.channel
     if isinstance(error, commands.MissingRequiredArgument):
-
+        # LOG
         with open('command_log.txt', 'a') as log:
             now = dt.now().strftime('%m-%d_%H:%M:%S')
             log.write(now + ' ERROR: MissingRequiredArgument ' + str(ctx.message.author) + ' ' +
                       str(ctx.message.content) + '\n')
 
+        # send error to discord.
         await bot.delete_message(ctx.message)
         await bot.send_message(destination, "You are missing some arguments.")
 
+# top and bottom command: )tb
 @bot.command(pass_context=True, name='tb', description = "Prints top and bottom text.", help = tbhelp)
-async def topAndBottom(ctx, memeType, topString : str, bottomString : str):
+async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str):
+    # gets the channel and the message from the context.
     destination = ctx.message.channel
     message = ctx.message
 
+    # deletes message that invoked the command.
     await bot.delete_message(message)
 
+    # check if in proper list
     if memeType in topBottomList:
         send = top_bottom(memeType, topString, bottomString)
         await bot.send_file(destination, send)
+        # LOG
         with open('command_log.txt', 'a') as log:
             now = dt.now().strftime('%m-%d_%H:%M:%S')
             log.write(now + ' INFO: Command Used ' + str(ctx.message.author) + ' ' +
                       str(ctx.message.content) + "\n")
 
+    # Warning
     else:
         await bot.send_message(destination, "Sorry, " + memeType + " isn't available or not in this list.")
+        # LOG
         with open('command_log.txt', 'a') as log:
             now = dt.now().strftime('%m-%d_%H:%M:%S')
             log.write(now + ' WARNING: Meme Missing ' + str(ctx.message.author) + ' ' +
                       str(ctx.message.content) + "\n")
 
+# top and bottom command: )top
 @bot.command(pass_context = True, name = 'top',description = "Prints top atext.", help = tophelp)
 async def topText(ctx, memeType, topString):
+    # gets the channel and the message from the context.
     destination = ctx.message.channel
     message = ctx.message
 
     await bot.delete_message(message)
 
+    # check if in proper list
     if memeType in toplist:
         send = top_bottom(memeType, topString, '')
         await bot.send_file(destination, send)
+        # LOG
         with open('command_log.txt', 'a') as log:
             now = dt.now().strftime('%m-%d_%H:%M:%S')
             log.write(now + ' INFO: Command Used ' + str(ctx.message.author) + ' ' +
                       str(ctx.message.content) + "\n")
 
+    # check if in proper list
     elif memeType in topBottomList:
         send = top_bottom(memeType, topString, '')
         await bot.send_file(destination, send)
+        # LOG
         with open('command_log.txt', 'a') as log:
             now = dt.now().strftime('%m-%d_%H:%M:%S')
             log.write(now + ' INFO: Command Used ' + str(ctx.message.author) + ' ' +
                       str(ctx.message.content) + "\n")
 
+    # Warning
     else:
         await bot.send_message(destination, "Sorry, " + memeType + " isn't available or not in this list.")
+        # LOG
         with open('command_log.txt', 'a') as log:
             now = dt.now().strftime('%m-%d_%H:%M:%S')
             log.write(now + ' WARNING: Meme Missing ' + str(ctx.message.author) + ' ' +
                       str(ctx.message.content) + "\n")
 
+# top and bottom command: )bottom
 @bot.command(pass_context = True, name = 'bottom',description = "Prints bottom text.", help = bottomhelp)
 async def bottomText(ctx, memeType, bottomString):
+    # gets the channel and the message from the context.
     destination = ctx.message.channel
     message = ctx.message
 
     await bot.delete_message(message)
 
+    # check if in proper list
     if memeType in toplist:
         send = top_bottom(memeType, '', bottomString)
         await bot.send_file(destination, send)
+        # LOG
         with open('command_log.txt', 'a') as log:
             now = dt.now().strftime('%m-%d_%H:%M:%S')
             log.write(now + ' INFO: Command Used ' + str(ctx.message.author) + ' ' +
                       str(ctx.message.content) + "\n")
 
+    # check if in proper list
     elif memeType in topBottomList:
         send = top_bottom(memeType, '', bottomString)
         await bot.send_file(destination, send)
+        # LOG
         with open('command_log.txt', 'a') as log:
             now = dt.now().strftime('%m-%d_%H:%M:%S')
             log.write(now + ' INFO: Command Used ' + str(ctx.message.author) + ' ' +
                       str(ctx.message.content) + "\n")
 
+    # Warning
     else:
         await bot.send_message(destination, "Sorry, " + memeType + " isn't available or not in this list.")
+        # LOG
         with open('command_log.txt', 'a') as log:
             now = dt.now().strftime('%m-%d_%H:%M:%S')
             log.write(now + ' ' + str(ctx.message.author) + ' ' +
                       str(ctx.message.content) + " WARNING: Meme Missing.\n")
 
+# top and bottom command: )list
 @bot.command(pass_context = True, name = 'list', description = "Prints a list of memes.", help = listhelp)
 async def listMemes(ctx):
+    # gets the channel and the message from the context.
     destination = ctx.message.channel
     message = ctx.message
 
     await bot.delete_message(message)
 
+    # puts array's into a string form
     tmptop = ", ".join(toplist)
     tmpbottom = ", ".join(bottomlist)
     tmptb = ", ".join(topBottomList)
@@ -171,9 +218,11 @@ async def listMemes(ctx):
     await bot.send_message(destination, 'Top text only: ' + tmptop)
     await bot.send_message(destination, 'Bottom text only: ' + tmpbottom)
     await bot.send_message(destination, 'Top and Bottom text: ' + tmptb)
+    # LOG
     with open('command_log.txt', 'a') as log:
         now = dt.now().strftime('%m-%d_%H:%M:%S')
         log.write(now + ' INFO: Command Used ' + str(ctx.message.author) + ' ' +
                   str(ctx.message.content) + "\n")
 
+# Start bot
 bot.run(token.strip())
