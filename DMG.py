@@ -59,9 +59,9 @@ bottomhelp = 'Prints bottom text memes.\n' \
 # ---------------------------HELP------------------------------------
 
 # http://discordpy.readthedocs.io/en/latest/logging.html
-logger = logging.getLogger('discord.txt')
+logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
+handler = logging.FileHandler(filename='discord.txt', encoding='utf-8', mode='w')
 handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
 logger.addHandler(handler)
 
