@@ -26,7 +26,7 @@ import logging
 
 logger = logging.getLogger('discord')
 logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(filename = discord.log, encoding = 'utf-8', mode = 'w')
+handler = logging.FileHandler(filename = 'discord.log', encoding = 'utf-8', mode = 'w')
 logger.addHandler(handler)
 
 # memes that only use )top (top text only)
