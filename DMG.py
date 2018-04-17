@@ -22,10 +22,9 @@ from MemeFormatting import *
 from discord.ext import commands
 from datetime import datetime as dt
 import discord
+import logging
 
-# I currently have some bad logging, but it works for now.
-# will try to implement this later.
-# import logging
+logger = logging.getLogger('discord')
 
 # memes that only use )top (top text only)
 toplist = ['mocking-spongebob']
@@ -87,10 +86,14 @@ async def on_command_error(error, ctx):
     destination = ctx.message.channel
     if isinstance(error, commands.MissingRequiredArgument):
         # LOG
-        with open('command_log.txt', 'a') as log:
-            now = dt.now().strftime('%m-%d_%H:%M:%S')
-            log.write(now + ' ERROR: MissingRequiredArgument ' + str(ctx.message.author) + ' ' +
-                      str(ctx.message.content) + '\n')
+        now = dt.now().strftime('%m-%d_%H:%M:%S')
+        logger.error(now + ' ' + str(error) + ' from: ' + str(ctx.message.author) + ' ' +
+                     str(ctx.message.content))
+
+        # with open('command_log.txt', 'a') as log:
+        #     now = dt.now().strftime('%m-%d_%H:%M:%S')
+        #     log.write(now + ' ERROR: MissingRequiredArgument ' + str(ctx.message.author) + ' ' +
+        #               str(ctx.message.content) + '\n')
 
         # send error to discord.
         await bot.delete_message(ctx.message)
