@@ -88,8 +88,8 @@ async def on_command_error(error, ctx):
     if isinstance(error, commands.MissingRequiredArgument):
         # LOG
         now = dt.now().strftime('%m/%d %H:%M ')
-        logging.error(now + str(error) + ' From: ' + str(ctx.message.author)
-                      + ' \'' + str(ctx.message.content)) + ' \''
+        logging.error(now + str(error) + ' From: ' + str(ctx.message.author) +
+                      ' \'' + str(ctx.message.content)) + ' \''
 
         # send error to discord.
         await bot.delete_message(ctx.message)
@@ -111,8 +111,8 @@ async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str)
         await bot.send_file(destination, send)
         # LOG
         now = dt.now().strftime('%m-%d_%H:%M:%S')
-        logging.info(now + ' Command Used ' + str(ctx.message.author)
-                     + ' \'' + str(ctx.message.content) + ' \'')
+        logging.info(now + ' Command Used ' + str(ctx.message.author) +
+                     ' \'' + str(ctx.message.content) + ' \'')
 
     # Warning
     else:
