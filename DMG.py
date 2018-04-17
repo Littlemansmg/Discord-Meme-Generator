@@ -87,14 +87,9 @@ async def on_command_error(error, ctx):
     destination = ctx.message.channel
     if isinstance(error, commands.MissingRequiredArgument):
         # LOG
-        now = dt.now().strftime('%m-%d_%H:%M:%S')
-        logging.error(now + ' ' + str(error) + ' from: ' + str(ctx.message.author) + ' ' +
-                     str(ctx.message.content))
-
-        # with open('command_log.txt', 'a') as log:
-        #     now = dt.now().strftime('%m-%d_%H:%M:%S')
-        #     log.write(now + ' ERROR: MissingRequiredArgument ' + str(ctx.message.author) + ' ' +
-        #               str(ctx.message.content) + '\n')
+        now = dt.now().strftime('%m/%d %H:%M ')
+        logging.error(now + str(ctx.guild) + ' ' + str(error) + ' From: ' + str(ctx.message.author)
+                      + ' \'' + str(ctx.message.content)) + ' \''
 
         # send error to discord.
         await bot.delete_message(ctx.message)
@@ -115,10 +110,9 @@ async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str)
         send = top_bottom(memeType, topString, bottomString)
         await bot.send_file(destination, send)
         # LOG
-        with open('command_log.txt', 'a') as log:
-            now = dt.now().strftime('%m-%d_%H:%M:%S')
-            log.write(now + ' INFO: Command Used ' + str(ctx.message.author) + ' ' +
-                      str(ctx.message.content) + "\n")
+        now = dt.now().strftime('%m-%d_%H:%M:%S')
+        logging.info(now + ' Command Used ' + str(ctx.message.author)
+                     + ' \'' + str(ctx.message.content) + ' \'')
 
     # Warning
     else:
