@@ -25,7 +25,7 @@ import discord
 import logging
 
 logging.basicConfig(filename='discord.log', level = logging.DEBUG)
-logger = logging.getLogger('discord')
+
 
 # memes that only use )top (top text only)
 toplist = ['mocking-spongebob']
@@ -88,7 +88,7 @@ async def on_command_error(error, ctx):
     if isinstance(error, commands.MissingRequiredArgument):
         # LOG
         now = dt.now().strftime('%m-%d_%H:%M:%S')
-        logger.error(now + ' ' + str(error) + ' from: ' + str(ctx.message.author) + ' ' +
+        logging.error(now + ' ' + str(error) + ' from: ' + str(ctx.message.author) + ' ' +
                      str(ctx.message.content))
 
         # with open('command_log.txt', 'a') as log:
