@@ -88,7 +88,7 @@ async def on_command_error(error, ctx):
     if isinstance(error, commands.MissingRequiredArgument):
         # LOG
         now = dt.now().strftime('%m/%d %H:%M ')
-        logging.error(now + str(ctx.guild.name) + ' ' + str(error) + ' From: ' + str(ctx.message.author)
+        logging.error(now + str(ctx.message.guild.name) + ' ' + str(error) + ' From: ' + str(ctx.message.author)
                       + ' \'' + str(ctx.message.content)) + ' \''
 
         # send error to discord.
