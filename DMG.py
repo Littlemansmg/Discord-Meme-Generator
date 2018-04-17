@@ -89,7 +89,7 @@ async def on_command_error(error, ctx):
         # LOG
         now = dt.now().strftime('%m/%d %H:%M ')
         logging.error(now + str(error) + ' From: ' + str(ctx.message.author) +
-                      ' \'' + str(ctx.message.content)) + ' \''
+                      ' \'' + str(ctx.message.content) + ' \'')
 
         # send error to discord.
         await bot.delete_message(ctx.message)
