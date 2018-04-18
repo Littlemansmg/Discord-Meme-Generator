@@ -249,17 +249,17 @@ async def viewall(ctx):
 
     if ctx.invoked_subcommand is None:
         # if meme is found
-        for meme in topBottomList:
-            await bot.send_message(ctx.message.author, meme + ":")
-            await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
+        for tb in topBottomList:
+            await bot.send_message(ctx.message.author, tb + ":")
+            await bot.send_file(ctx.message.author, 'Templates/' + tb + '.jpg')
 
-        for meme in toplist:
-            await bot.send_message(ctx.message.author, meme + ":")
-            await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
+        for top in toplist:
+            await bot.send_message(ctx.message.author, top + ":")
+            await bot.send_file(ctx.message.author, 'Templates/' + top + '.jpg')
 
-        for meme in bottomlist:
-            await bot.send_message(ctx.message.author, meme + ":")
-            await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
+        for bottom in bottomlist:
+            await bot.send_message(ctx.message.author, bottom + ":")
+            await bot.send_file(ctx.message.author, 'Templates/' + bottom + '.jpg')
 
         #LOG
         commandInfo(ctx)
