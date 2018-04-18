@@ -249,21 +249,24 @@ async def viewall(ctx):
     await bot.delete_message(message)
 
     if ctx.invoked_subcommand is None:
-        # if meme is found
+
+        await bot.send_message(ctx.message.author, "Top and Bottom Text.")
+
         for tb in topBottomList:
             await bot.send_message(ctx.message.author, tb + ":")
             await bot.send_file(ctx.message.author, 'Templates/' + tb + '.jpg')
-            await asyncio.sleep(5)
+
+        await bot.send_message(ctx.message.author, "Top Text.")
 
         for top in toplist:
             await bot.send_message(ctx.message.author, top + ":")
             await bot.send_file(ctx.message.author, 'Templates/' + top + '.jpg')
-            await asyncio.sleep(5)
+
+        await bot.send_message(ctx.message.author, "Bottom Text.")
 
         for bottom in bottomlist:
             await bot.send_message(ctx.message.author, bottom + ":")
             await bot.send_file(ctx.message.author, 'Templates/' + bottom + '.jpg')
-        await asyncio.sleep(5)
 
         #LOG
         commandInfo(ctx)
@@ -271,6 +274,15 @@ async def viewall(ctx):
 # Invoke )view all
 @viewall.command(pass_context = True, name = 'top')
 async def _top(ctx):
+    for meme in toplist:
+        await bot.send_message(ctx.message.author, meme + ":")
+        await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
+
+    #LOG
+    commandInfo(ctx)
+
+@viewall.command(pass_context = True, name = 'tb')
+async def _tb(ctx):
     for meme in topBottomList:
         await bot.send_message(ctx.message.author, meme + ":")
         await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
@@ -278,5 +290,19 @@ async def _top(ctx):
     #LOG
     commandInfo(ctx)
 
+@viewall.command(pass_context = True, name = 'top')
+async def _top(ctx):
+    for meme in bottomlist:
+        await bot.send_message(ctx.message.author, meme + ":")
+        await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
+
+    #LOG
+    commandInfo(ctx)
+
+@viewall.command(pass_context = True, name = 'meme')
+async def _view(ctx, meme):
+    if meme in toplist or meme in topBottomList or meme in bottomlist:
+        await bot.send_message(ctx.message.author, meme + ":")
+        await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
 # Start bot
 bot.run(token.strip())
