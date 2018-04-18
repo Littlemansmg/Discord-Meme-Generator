@@ -57,17 +57,26 @@ tophelp = 'Prints top text memes.\n' \
 bottomhelp = 'Prints bottom text memes.\n' \
              'Notes: This command will only print bottomtext. It can only be used with memes that are in the ' \
              'Bottom List or Top and Bottom list. \nTEXT MUST BE IN SINGLE OR DOUBLE QUOTES.'
+
+suggesthelp = ''
+
+viewhelp = ''
+
 # ---------------------------Logs------------------------------------
 
 def commandInfo(ctx):
     now = dt.now().strftime('%m/%d %H:%M ')
-    logging.info(now + ' Command Used ' + ctx.message.server.name + ' ' + str(ctx.message.author)
-                 + ' \'' + str(ctx.message.content) + ' \'')
+    logging.info(now + ' Command Used: ' +
+                 ' Server: ' +ctx.message.server.name + ':' + ctx.message.server.id +
+                 ' Author: ' + str(ctx.message.author) +
+                 ' Invoke: \'' + str(ctx.message.content) + ' \'')
 
 def commandWarning(ctx):
     now = dt.now().strftime('%m-%d_%H:%M:%S')
-    logging.warning(now + ' Meme Missing ' + ctx.message.server.name + ' ' + str(ctx.message.author) +
-                    ' \'' + str(ctx.message.content) + ' \'')
+    logging.warning(now + ' Meme Missing.' +
+                    ' Server: ' + ctx.message.server.name + ':' + ctx.message.server.id +
+                    ' Author: ' + str(ctx.message.author) +
+                    ' Invoke: \'' + str(ctx.message.content) + ' \'')
 
 # ---------------------------BOT-------------------------------------
 bot = commands.Bot(command_prefix=')')
@@ -92,14 +101,16 @@ async def on_command_error(error, ctx):
     if isinstance(error, commands.MissingRequiredArgument):
         # LOG
         now = dt.now().strftime('%m/%d %H:%M ')
-        logging.error(now + str(error) + ' From: ' + ctx.message.server.name + ' ' +
-                      str(ctx.message.author) + ' \'' + str(ctx.message.content) + ' \'')
+        logging.error(now + str(error) +
+                      ' Server: ' + ctx.message.server.name + ':' + ctx.message.server.id +
+                      ' Author: ' + str(ctx.message.author) +
+                      ' Invoke: \'' + str(ctx.message.content) + ' \'')
 
         # send error to discord.
         await bot.delete_message(ctx.message)
         await bot.send_message(destination, "You are missing some arguments.")
 
-# top and bottom command: )tb
+# Invoke: )tb
 @bot.command(pass_context=True, name='tb', description = "Prints top and bottom text.", help = tbhelp)
 async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str):
     # gets the channel and the message from the context.
@@ -122,7 +133,7 @@ async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str)
         # LOG
         commandWarning(ctx)
 
-# top and bottom command: )top
+# Invoke: )top
 @bot.command(pass_context = True, name = 'top',description = "Prints top atext.", help = tophelp)
 async def topText(ctx, memeType, topString):
     # gets the channel and the message from the context.
@@ -151,7 +162,7 @@ async def topText(ctx, memeType, topString):
         # LOG
         commandWarning(ctx)
 
-# top and bottom command: )bottom
+# Invoke: )bottom
 @bot.command(pass_context = True, name = 'bottom',description = "Prints bottom text.", help = bottomhelp)
 async def bottomText(ctx, memeType, bottomString):
     # gets the channel and the message from the context.
@@ -180,7 +191,7 @@ async def bottomText(ctx, memeType, bottomString):
         # LOG
         commandWarning(ctx)
 
-# top and bottom command: )list
+# Invoke: )list
 @bot.command(pass_context = True, name = 'list', description = "Prints a list of memes.", help = listhelp)
 async def listMemes(ctx):
     # gets the channel and the message from the context.
@@ -199,6 +210,21 @@ async def listMemes(ctx):
     await bot.send_message(destination, '```Top and Bottom text: ' + tmptb + '```')
     # LOG
     commandInfo(ctx)
+
+# Invoke: )suggest
+@bot.command(pass_context = True, name = 'suggest', description = "Sends the Bot Dev a suggestion.", help = suggesthelp)
+async def suggestions(ctx, suggest):
+    pass
+
+# Invoke: )view
+@bot.group(pass_context = True, name = 'view', description = "Prints a list of memes.", help = listhelp)
+async def view(ctx, meme):
+    pass
+
+# Invoke )view all
+@view.command()
+async def all():
+    pass
 
 # Start bot
 bot.run(token.strip())
