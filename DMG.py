@@ -241,14 +241,14 @@ async def suggest(ctx, *, suggestion):
 # Invoke: )view
 @bot.group(pass_context = True, name = 'view', description = "Display templates.", help = viewhelp)
 async def view(ctx, meme):
-    destination = discord.utils.get(bot.get_user(ctx.message.author.id))
+    # destination = discord.utils.get(bot.g)
     message = ctx.message
 
     await bot.delete_message(message)
 
     if meme in topBottomList or meme in toplist or meme in bottomlist:
-        bot.send_message(destination, meme + ":")
-        bot.send_file(destination, 'Templates/' + meme + '.jpg')
+        bot.send_message(ctx.message.author, meme + ":")
+        bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
 
 # # Invoke )view all
 # @view.command()
