@@ -265,7 +265,7 @@ async def view(ctx, meme):
 
 # Invoke )view all
 @view.command(pass_context = True, name = 'top')
-async def top(ctx):
+async def _top(ctx):
     for meme in toplist:
         await bot.send_message(ctx.message.author, meme + ":")
         await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
