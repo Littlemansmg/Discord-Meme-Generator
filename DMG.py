@@ -147,7 +147,7 @@ async def on_command_error(error, ctx):
 
 # Invoke: )tb <memetype> <topstring> <bottomstring>
 @bot.command(pass_context=True, name='tb', description = "Prints top and bottom text.", help = tbhelp)
-@commands.check(is_ascii)
+@commands.check(is_english)
 async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str):
     # gets the channel and the message from the context.
     destination = ctx.message.channel
@@ -176,7 +176,7 @@ async def topandbottom_error(error, ctx):
 
 # Invoke: )top <memetype> <topstring>
 @bot.command(pass_context = True, name = 'top',description = "Prints top atext.", help = tophelp)
-@commands.check(is_ascii)
+@commands.check(is_english)
 async def topText(ctx, memeType, *, topString):
     # gets the channel and the message from the context.
     destination = ctx.message.channel
@@ -211,7 +211,7 @@ async def topText_error(error, ctx):
 
 # Invoke: )bottom <memetype> <bottomstring>
 @bot.command(pass_context = True, name = 'bottom',description = "Prints bottom text.", help = bottomhelp)
-@commands.check(is_ascii)
+@commands.check(is_english)
 async def bottomText(ctx, memeType, *, bottomString):
     # gets the channel and the message from the context.
     destination = ctx.message.channel
@@ -352,7 +352,7 @@ async def _top(ctx):
 
 # Invoke )viewall meme <meme>
 @viewall.command(pass_context = True, name = 'meme', help = viewallMeme)
-@commands.check(is_ascii)
+@commands.check(is_english)
 async def _view(ctx, meme):
     # send specific meme template to user via PM
     if meme in toplist or meme in topBottomList or meme in bottomlist:
