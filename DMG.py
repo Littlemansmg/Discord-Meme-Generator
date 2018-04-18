@@ -262,10 +262,15 @@ async def view(ctx, meme):
         #LOG
         commandWarning(ctx)
 
-# # Invoke )view all
-# @view.command()
-# async def all():
-#     pass
+# Invoke )view all
+@view.command(pass_context = True)
+async def top(ctx):
+    for meme in toplist:
+        await bot.send_message(ctx.message.author, meme + ":")
+        await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
+
+    #LOG
+    commandInfo(ctx)
 
 # Start bot
 bot.run(token.strip())
