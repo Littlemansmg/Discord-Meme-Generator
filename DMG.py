@@ -102,6 +102,17 @@ def commandWarning(ctx):
                     ' Author: ' + str(ctx.message.author) +
                     ' Invoke: \'' + str(ctx.message.content) + ' \'')
 
+# ---------------------------Checks----------------------------------
+
+async def is_ascii(ctx):
+    try:
+        message = ctx.message.content
+        message.decode('ascii')
+    except UnicodeDecodeError:
+        return False
+
+    return True
+
 # ---------------------------BOT-------------------------------------
 bot = commands.Bot(command_prefix=')', owner_id=179050708908113920)
 
@@ -136,6 +147,7 @@ async def on_command_error(error, ctx):
 
 # Invoke: )tb <memetype> <topstring> <bottomstring>
 @bot.command(pass_context=True, name='tb', description = "Prints top and bottom text.", help = tbhelp)
+@commands.check(is_ascii)
 async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str):
     # gets the channel and the message from the context.
     destination = ctx.message.channel
@@ -157,8 +169,14 @@ async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str)
         # LOG
         commandWarning(ctx)
 
+@topAndBottom.error
+async def topandbottom_error(error, ctx):
+    if isinstance(error, commands.CheckFailure):
+        await bot.send(ctx.message.channel, 'Sorry. No special characters allowed.')
+
 # Invoke: )top <memetype> <topstring>
 @bot.command(pass_context = True, name = 'top',description = "Prints top atext.", help = tophelp)
+@commands.check(is_ascii)
 async def topText(ctx, memeType, *, topString):
     # gets the channel and the message from the context.
     destination = ctx.message.channel
@@ -186,8 +204,14 @@ async def topText(ctx, memeType, *, topString):
         # LOG
         commandWarning(ctx)
 
+@topText.error
+async def topText_error(error, ctx):
+    if isinstance(error, commands.CheckFailure):
+        await bot.send(ctx.message.channel, 'Sorry. No special characters allowed.')
+
 # Invoke: )bottom <memetype> <bottomstring>
 @bot.command(pass_context = True, name = 'bottom',description = "Prints bottom text.", help = bottomhelp)
+@commands.check(is_ascii)
 async def bottomText(ctx, memeType, *, bottomString):
     # gets the channel and the message from the context.
     destination = ctx.message.channel
@@ -214,6 +238,11 @@ async def bottomText(ctx, memeType, *, bottomString):
         await bot.send_message(destination, "Sorry, " + memeType + " isn't available or not in this list.")
         # LOG
         commandWarning(ctx)
+
+@bottomText.error
+async def bottomText_error(error, ctx):
+    if isinstance(error, commands.CheckFailure):
+        await bot.send(ctx.message.channel, 'Sorry. No special characters allowed.')
 
 # Invoke: )list
 @bot.command(pass_context = True, name = 'list', description = "Prints a list of memes.", help = listhelp)
@@ -323,6 +352,7 @@ async def _top(ctx):
 
 # Invoke )viewall meme <meme>
 @viewall.command(pass_context = True, name = 'meme', help = viewallMeme)
+@commands.check(is_ascii)
 async def _view(ctx, meme):
     # send specific meme template to user via PM
     if meme in toplist or meme in topBottomList or meme in bottomlist:
