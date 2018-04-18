@@ -224,6 +224,7 @@ async def suggest(ctx, *, suggestion):
         suggest.write(str(ctx.message.author) + ' Suggestion: ' + suggestion + "\n")
 
     await bot.send_message(destination, 'Your suggestion has been recorded.')
+    await bot.start_private_message(bot.get_user(179050708908113920))
     await bot.send_message(bot.get_user(179050708908113920), 'Suggestion made. Check suggest.txt.')
 
 
