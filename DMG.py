@@ -225,7 +225,7 @@ async def suggest(ctx, *, suggestion):
 
     await bot.send_message(destination, 'Your suggestion has been recorded.')
 
-    user = await discord.AppInfo.owner
+    user = discord.utils.get(bot.get_all_members(), id = '179050708908113920')
     if user is not None:
         # await bot.start_private_message(bot.get_user(179050708908113920))
         await bot.send_message(user, 'Suggestion made. Check suggest.txt.')
