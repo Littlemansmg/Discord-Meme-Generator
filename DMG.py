@@ -59,11 +59,13 @@ bottomhelp = 'Prints bottom text memes.\n' \
              'Bottom List or Top and Bottom list.'
 
 suggesthelp = 'Sends a suggestion to the dev.\n' \
-              'Notes: This command will send all suggestions to the developer of the bot.' \
+              'Notes: This command will send all suggestions to the developer of the bot. ' \
               'Feel free to suggest meme templates, features, or report any bugs here.'
 
 
-viewhelp = ''
+viewhelp = 'Sends the user a template.\n' \
+           'Notes: The user can type in a meme name and the bot will return a PM of what ' \
+           'the template looks like. '
 
 # ---------------------------Logs------------------------------------
 
@@ -230,25 +232,35 @@ async def suggest(ctx, *, suggestion):
 
     await bot.send_message(destination, 'Your suggestion has been recorded.')
 
-    # Notifies specificly LittlemanSMG#6041 of any suggestion made
+    # Notifies specifically LittlemanSMG#6041 of any suggestion made
     owner = discord.utils.get(bot.get_all_members(), id = '179050708908113920')
     await bot.send_message(owner, 'Suggestion made. Check suggest.txt.')
 
     #LOG
     commandInfo(ctx)
 
-
 # Invoke: )view
 @bot.group(pass_context = True, name = 'view', description = "Display templates.", help = viewhelp)
 async def view(ctx, meme):
-    # destination = discord.utils.get(bot.g)
+    destination = ctx.message.channel
     message = ctx.message
 
     await bot.delete_message(message)
 
+    # if meme is found
     if meme in topBottomList or meme in toplist or meme in bottomlist:
+        # send template to user
         await bot.send_message(ctx.message.author, meme + ":")
         await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
+
+        #LOG
+        commandInfo(ctx)
+    else:
+        # If meme doesn't exist.
+        await bot.send_message(destination, "Can't view this meme: " + meme)
+
+        #LOG
+        commandWarning(ctx)
 
 # # Invoke )view all
 # @view.command()
