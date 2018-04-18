@@ -36,7 +36,7 @@ bottomlist = []
 # memes that use )top )bottom )tb
 # TODO: Make a list for top and bottom only memes?
 topBottomList = [
-    '10-guy', 'bad-luck-brian', 'good-guy-greg', 'roll-safe',
+    '10-guy', 'bad-luck-brian', 'danger-zucc', 'good-guy-greg', 'roll-safe',
     'simply', 'successkid', 'willy-wonka', 'zucc']
 
 # read token file
