@@ -247,20 +247,21 @@ async def view(ctx, meme):
 
     await bot.delete_message(message)
 
-    # if meme is found
-    if meme in topBottomList or meme in toplist or meme in bottomlist:
-        # send template to user
-        await bot.send_message(ctx.message.author, meme + ":")
-        await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
+    if ctx.invoked_subcommand is None:
+        # if meme is found
+        if meme in topBottomList or meme in toplist or meme in bottomlist:
+            # send template to user
+            await bot.send_message(ctx.message.author, meme + ":")
+            await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
 
-        #LOG
-        commandInfo(ctx)
-    else:
-        # If meme doesn't exist.
-        await bot.send_message(destination, "Can't view this meme: " + meme)
+            #LOG
+            commandInfo(ctx)
+        else:
+            # If meme doesn't exist.
+            await bot.send_message(destination, "Can't view this meme: " + meme)
 
-        #LOG
-        commandWarning(ctx)
+            #LOG
+            commandWarning(ctx)
 
 # Invoke )view all
 @view.command(pass_context = True, name = 'top')
