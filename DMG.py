@@ -226,12 +226,14 @@ async def suggest(ctx, *, suggestion):
     await bot.send_message(destination, 'Your suggestion has been recorded.')
 
     user = await discord.AppInfo.owner
+    if user is not None:
+        # await bot.start_private_message(bot.get_user(179050708908113920))
+        await bot.send_message(user, 'Suggestion made. Check suggest.txt.')
 
-    # await bot.start_private_message(bot.get_user(179050708908113920))
-    await bot.send_message(user, 'Suggestion made. Check suggest.txt.')
-
-    # await bot.start_private_message(discord.Server.get_member(bot.get_server("416425570600222720"),ROAuth[6]))
-    # await bot.send_message(discord.Server.get_member(bot.get_server("416425570600222720"), ROAuth[6]), suggest[1])
+        # await bot.start_private_message(discord.Server.get_member(bot.get_server("416425570600222720"),ROAuth[6]))
+        # await bot.send_message(discord.Server.get_member(bot.get_server("416425570600222720"), ROAuth[6]), suggest[1])
+    else:
+        await bot.send_message(destination, 'can\'t find my owner.')
 
 # # Invoke: )view
 # @bot.group(pass_context = True, name = 'view', description = "Prints a list of memes.", help = listhelp)
