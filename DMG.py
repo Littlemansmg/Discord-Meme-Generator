@@ -52,13 +52,16 @@ tbhelp = 'Prints top and bottom text memes.\n' \
 
 tophelp = 'Prints top text memes.\n' \
           'Notes: This command will only print toptext. It can only be used with memes that are in the Top List ' \
-          'or Top and Bottom list. \nTEXT MUST BE IN SINGLE OR DOUBLE QUOTES.'
+          'or Top and Bottom list.'
 
 bottomhelp = 'Prints bottom text memes.\n' \
              'Notes: This command will only print bottomtext. It can only be used with memes that are in the ' \
-             'Bottom List or Top and Bottom list. \nTEXT MUST BE IN SINGLE OR DOUBLE QUOTES.'
+             'Bottom List or Top and Bottom list.'
 
-suggesthelp = ''
+suggesthelp = 'Sends a suggestion to the dev.\n' \
+              'Notes: This command will send all suggestions to the developer of the bot.' \
+              'Feel free to suggest meme templates, features, or report any bugs here.'
+
 
 viewhelp = ''
 
@@ -220,20 +223,20 @@ async def suggest(ctx, *, suggestion):
 
     await bot.delete_message(message)
 
+    # writes suggestion to a file
     with open('suggest.txt', 'a') as suggest:
-        suggest.write(str(ctx.message.author) + ' Suggestion: ' + suggestion + "\n")
+        now = dt.now().strftime('%m/%d %H:%M ')
+        suggest.write(now + " " + str(ctx.message.author) + ' Suggestion: ' + suggestion + "\n")
 
     await bot.send_message(destination, 'Your suggestion has been recorded.')
 
-    user = discord.utils.get(bot.get_all_members(), id = '179050708908113920')
-    if user is not None:
-        # await bot.start_private_message(bot.get_user(179050708908113920))
-        await bot.send_message(user, 'Suggestion made. Check suggest.txt.')
+    # Notifies specificly LittlemanSMG#6041 of any suggestion made
+    owner = discord.utils.get(bot.get_all_members(), id = '179050708908113920')
+    await bot.send_message(owner, 'Suggestion made. Check suggest.txt.')
 
-        # await bot.start_private_message(discord.Server.get_member(bot.get_server("416425570600222720"),ROAuth[6]))
-        # await bot.send_message(discord.Server.get_member(bot.get_server("416425570600222720"), ROAuth[6]), suggest[1])
-    else:
-        await bot.send_message(destination, 'can\'t find my owner.')
+    #LOG
+    commandInfo(ctx)
+
 
 # # Invoke: )view
 # @bot.group(pass_context = True, name = 'view', description = "Prints a list of memes.", help = listhelp)
