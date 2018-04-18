@@ -61,12 +61,12 @@ bottomhelp = 'Prints bottom text memes.\n' \
 
 def commandInfo(ctx):
     now = dt.now().strftime('%m/%d %H:%M ')
-    logging.info(now + ' Command Used ' + ctx.server.name + ' ' + str(ctx.message.author)
+    logging.info(now + ' Command Used ' + ctx.message.server.name + ' ' + str(ctx.message.author)
                  + ' \'' + str(ctx.message.content) + ' \'')
 
 def commandWarning(ctx):
     now = dt.now().strftime('%m-%d_%H:%M:%S')
-    logging.warning(now + ' Meme Missing ' + ctx.server.name + ' ' + str(ctx.message.author) +
+    logging.warning(now + ' Meme Missing ' + ctx.message.server.name + ' ' + str(ctx.message.author) +
                     ' \'' + str(ctx.message.content) + ' \'')
 
 # ---------------------------BOT-------------------------------------
@@ -93,7 +93,7 @@ async def on_command_error(error, ctx):
         # LOG
         now = dt.now().strftime('%m/%d %H:%M ')
         server = ctx.server.name
-        logging.error(now + str(error) + ' From: ' + ctx.server.name + ' ' +
+        logging.error(now + str(error) + ' From: ' + ctx.message.server.name + ' ' +
                       str(ctx.message.author) + ' \'' + str(ctx.message.content) + ' \'')
 
         # send error to discord.
