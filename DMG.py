@@ -26,7 +26,6 @@ import logging
 
 logging.basicConfig(filename='discord.log', level = logging.INFO)
 
-
 # memes that only use )top (top text only)
 toplist = ['mocking-spongebob']
 
@@ -42,7 +41,9 @@ topBottomList = [
 # read token file
 with open('token.txt') as token:
     token = token.readline()
+
 # ---------------------------HELP------------------------------------
+
 listhelp = 'Prints a list of all the memes available.'
 
 tbhelp = 'Prints top and bottom text memes.\n' \
@@ -56,16 +57,19 @@ tophelp = 'Prints top text memes.\n' \
 bottomhelp = 'Prints bottom text memes.\n' \
              'Notes: This command will only print bottomtext. It can only be used with memes that are in the ' \
              'Bottom List or Top and Bottom list. \nTEXT MUST BE IN SINGLE OR DOUBLE QUOTES.'
-# ---------------------------HELP------------------------------------
+# ---------------------------Logs------------------------------------
 
-# http://discordpy.readthedocs.io/en/latest/logging.html
-# logger = logging.getLogger('discord')
-# logger.setLevel(logging.DEBUG)
-# handler = logging.FileHandler(filename='discord.txt', encoding='utf-8', mode='w')
-# handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-# logger.addHandler(handler)
+def commandInfo(ctx):
+    now = dt.now().strftime('%m/%d %H:%M ')
+    logging.info(now + ' Command Used ' + ctx.server.name + ' ' + str(ctx.message.author)
+                 + ' \'' + str(ctx.message.content) + ' \'')
 
-# command prefix
+def commandWarning(ctx):
+    now = dt.now().strftime('%m-%d_%H:%M:%S')
+    logging.warning(now + ' Meme Missing ' + ctx.server.name + ' ' + str(ctx.message.author) +
+                    ' \'' + str(ctx.message.content) + ' \'')
+
+# ---------------------------BOT-------------------------------------
 bot = commands.Bot(command_prefix=')')
 
 # execute when bot is logged in and ready
@@ -88,8 +92,9 @@ async def on_command_error(error, ctx):
     if isinstance(error, commands.MissingRequiredArgument):
         # LOG
         now = dt.now().strftime('%m/%d %H:%M ')
-        logging.error(now + str(error) + ' From: ' + str(ctx.message.author) +
-                      ' \'' + str(ctx.message.content) + ' \'')
+        server = ctx.server.name
+        logging.error(now + str(error) + ' From: ' + ctx.server.name + ' ' +
+                      str(ctx.message.author) + ' \'' + str(ctx.message.content) + ' \'')
 
         # send error to discord.
         await bot.delete_message(ctx.message)
@@ -110,18 +115,13 @@ async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str)
         send = top_bottom(memeType, topString, bottomString)
         await bot.send_file(destination, send)
         # LOG
-        now = dt.now().strftime('%m-%d_%H:%M:%S')
-        logging.info(now + ' Command Used ' + str(ctx.message.author) +
-                     ' \'' + str(ctx.message.content) + ' \'')
+        commandInfo(ctx)
 
     # Warning
     else:
         await bot.send_message(destination, "Sorry, " + memeType + " isn't available or not in this list.")
         # LOG
-        with open('command_log.txt', 'a') as log:
-            now = dt.now().strftime('%m-%d_%H:%M:%S')
-            log.write(now + ' WARNING: Meme Missing ' + str(ctx.message.author) + ' ' +
-                      str(ctx.message.content) + "\n")
+        commandWarning(ctx)
 
 # top and bottom command: )top
 @bot.command(pass_context = True, name = 'top',description = "Prints top atext.", help = tophelp)
@@ -137,29 +137,20 @@ async def topText(ctx, memeType, topString):
         send = top_bottom(memeType, topString, '')
         await bot.send_file(destination, send)
         # LOG
-        with open('command_log.txt', 'a') as log:
-            now = dt.now().strftime('%m-%d_%H:%M:%S')
-            log.write(now + ' INFO: Command Used ' + str(ctx.message.author) + ' ' +
-                      str(ctx.message.content) + "\n")
+        commandInfo(ctx)
 
     # check if in proper list
     elif memeType in topBottomList:
         send = top_bottom(memeType, topString, '')
         await bot.send_file(destination, send)
         # LOG
-        with open('command_log.txt', 'a') as log:
-            now = dt.now().strftime('%m-%d_%H:%M:%S')
-            log.write(now + ' INFO: Command Used ' + str(ctx.message.author) + ' ' +
-                      str(ctx.message.content) + "\n")
+        commandInfo(ctx)
 
     # Warning
     else:
         await bot.send_message(destination, "Sorry, " + memeType + " isn't available or not in this list.")
         # LOG
-        with open('command_log.txt', 'a') as log:
-            now = dt.now().strftime('%m-%d_%H:%M:%S')
-            log.write(now + ' WARNING: Meme Missing ' + str(ctx.message.author) + ' ' +
-                      str(ctx.message.content) + "\n")
+        commandWarning(ctx)
 
 # top and bottom command: )bottom
 @bot.command(pass_context = True, name = 'bottom',description = "Prints bottom text.", help = bottomhelp)
@@ -175,29 +166,20 @@ async def bottomText(ctx, memeType, bottomString):
         send = top_bottom(memeType, '', bottomString)
         await bot.send_file(destination, send)
         # LOG
-        with open('command_log.txt', 'a') as log:
-            now = dt.now().strftime('%m-%d_%H:%M:%S')
-            log.write(now + ' INFO: Command Used ' + str(ctx.message.author) + ' ' +
-                      str(ctx.message.content) + "\n")
+        commandInfo(ctx)
 
     # check if in proper list
     elif memeType in topBottomList:
         send = top_bottom(memeType, '', bottomString)
         await bot.send_file(destination, send)
         # LOG
-        with open('command_log.txt', 'a') as log:
-            now = dt.now().strftime('%m-%d_%H:%M:%S')
-            log.write(now + ' INFO: Command Used ' + str(ctx.message.author) + ' ' +
-                      str(ctx.message.content) + "\n")
+        commandInfo(ctx)
 
     # Warning
     else:
         await bot.send_message(destination, "Sorry, " + memeType + " isn't available or not in this list.")
         # LOG
-        with open('command_log.txt', 'a') as log:
-            now = dt.now().strftime('%m-%d_%H:%M:%S')
-            log.write(now + ' ' + str(ctx.message.author) + ' ' +
-                      str(ctx.message.content) + " WARNING: Meme Missing.\n")
+        commandWarning(ctx)
 
 # top and bottom command: )list
 @bot.command(pass_context = True, name = 'list', description = "Prints a list of memes.", help = listhelp)
@@ -213,14 +195,11 @@ async def listMemes(ctx):
     tmpbottom = ", ".join(bottomlist)
     tmptb = ", ".join(topBottomList)
 
-    await bot.send_message(destination, 'Top text only: ' + tmptop)
-    await bot.send_message(destination, 'Bottom text only: ' + tmpbottom)
-    await bot.send_message(destination, 'Top and Bottom text: ' + tmptb)
+    await bot.send_message(destination, '```Top text only: ' + tmptop + '```')
+    await bot.send_message(destination, '```Bottom text only: ' + tmpbottom + '```')
+    await bot.send_message(destination, '```Top and Bottom text: ' + tmptb + '```')
     # LOG
-    with open('command_log.txt', 'a') as log:
-        now = dt.now().strftime('%m-%d_%H:%M:%S')
-        log.write(now + ' INFO: Command Used ' + str(ctx.message.author) + ' ' +
-                  str(ctx.message.content) + "\n")
+    commandInfo(ctx)
 
 # Start bot
 bot.run(token.strip())
