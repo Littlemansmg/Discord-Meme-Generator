@@ -241,7 +241,7 @@ async def suggest(ctx, *, suggestion):
 # Invoke: )view
 @bot.group(pass_context = True, name = 'view', description = "Display templates.", help = viewhelp)
 async def view(ctx, meme):
-    destination = ctx.message.author
+    destination = discord.utils.get(bot.get_user(ctx.message.author.id))
     message = ctx.message
 
     await bot.delete_message(message)
