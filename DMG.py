@@ -240,8 +240,8 @@ async def suggest(ctx, *, suggestion):
     commandInfo(ctx)
 
 # Invoke: )view
-@bot.group(pass_context = True, name = 'view', description = "Display templates.", help = viewhelp)
-async def view(ctx, meme):
+@bot.group(pass_context = True, name = 'viewall', description = "Display templates.", help = viewhelp)
+async def viewall(ctx):
     destination = ctx.message.channel
     message = ctx.message
 
@@ -249,22 +249,23 @@ async def view(ctx, meme):
 
     if ctx.invoked_subcommand is None:
         # if meme is found
-        if meme in topBottomList or meme in toplist or meme in bottomlist:
-            # send template to user
+        for meme in topBottomList:
             await bot.send_message(ctx.message.author, meme + ":")
             await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
 
-            #LOG
-            commandInfo(ctx)
-        else:
-            # If meme doesn't exist.
-            await bot.send_message(destination, "Can't view this meme: " + meme)
+        for meme in toplist:
+            await bot.send_message(ctx.message.author, meme + ":")
+            await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
 
-            #LOG
-            commandWarning(ctx)
+        for meme in bottomlist:
+            await bot.send_message(ctx.message.author, meme + ":")
+            await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
+
+        #LOG
+        commandInfo(ctx)
 
 # Invoke )view all
-@view.command(pass_context = True, name = 'top')
+@viewall.command(pass_context = True, name = 'top')
 async def _top(ctx):
     for meme in toplist:
         await bot.send_message(ctx.message.author, meme + ":")
