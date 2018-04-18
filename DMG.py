@@ -222,10 +222,10 @@ async def suggest(ctx, *, suggestion):
 
     with open('suggest.txt', 'a') as suggest:
         suggest.write(str(ctx.message.author) + ' Suggestion: ' + suggestion + "\n")
-        
+
     await bot.send_message(destination, 'Your suggestion has been recorded.')
 
-    user = discord.utils.get(bot.get_user(bot.owner_id))
+    user = await discord.AppInfo.owner
 
     # await bot.start_private_message(bot.get_user(179050708908113920))
     await bot.send_message(user, 'Suggestion made. Check suggest.txt.')
