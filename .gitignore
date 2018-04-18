@@ -3,5 +3,5 @@
 *.xml
 token.txt
 *.pyc
-command_log.txt
-*_new.jpg
+New/*_new.jpg
+discord.log

@@ -212,19 +212,19 @@ async def listMemes(ctx):
     commandInfo(ctx)
 
 # Invoke: )suggest
-@bot.command(pass_context = True, name = 'suggest', description = "Sends the Bot Dev a suggestion.", help = suggesthelp)
-async def suggestions(ctx, suggest):
-    pass
-
-# Invoke: )view
-@bot.group(pass_context = True, name = 'view', description = "Prints a list of memes.", help = listhelp)
-async def view(ctx, meme):
-    pass
-
-# Invoke )view all
-@view.command()
-async def all():
-    pass
+# @bot.command(pass_context = True, name = 'suggest', description = "Sends the Bot Dev a suggestion.", help = suggesthelp)
+# async def suggestions(ctx, suggest):
+#     pass
+#
+# # Invoke: )view
+# @bot.group(pass_context = True, name = 'view', description = "Prints a list of memes.", help = listhelp)
+# async def view(ctx, meme):
+#     pass
+#
+# # Invoke )view all
+# @view.command()
+# async def all():
+#     pass
 
 # Start bot
 bot.run(token.strip())
