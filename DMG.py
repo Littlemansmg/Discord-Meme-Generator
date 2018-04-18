@@ -79,7 +79,7 @@ def commandWarning(ctx):
                     ' Invoke: \'' + str(ctx.message.content) + ' \'')
 
 # ---------------------------BOT-------------------------------------
-bot = commands.Bot(command_prefix=')')
+bot = commands.Bot(command_prefix=')', owner_id=179050708908113920)
 
 # execute when bot is logged in and ready
 @bot.event
@@ -135,7 +135,7 @@ async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str)
 
 # Invoke: )top
 @bot.command(pass_context = True, name = 'top',description = "Prints top atext.", help = tophelp)
-async def topText(ctx, memeType, topString):
+async def topText(ctx, memeType, *, topString):
     # gets the channel and the message from the context.
     destination = ctx.message.channel
     message = ctx.message
@@ -164,7 +164,7 @@ async def topText(ctx, memeType, topString):
 
 # Invoke: )bottom
 @bot.command(pass_context = True, name = 'bottom',description = "Prints bottom text.", help = bottomhelp)
-async def bottomText(ctx, memeType, bottomString):
+async def bottomText(ctx, memeType, *, bottomString):
     # gets the channel and the message from the context.
     destination = ctx.message.channel
     message = ctx.message
@@ -212,10 +212,21 @@ async def listMemes(ctx):
     commandInfo(ctx)
 
 # Invoke: )suggest
-# @bot.command(pass_context = True, name = 'suggest', description = "Sends the Bot Dev a suggestion.", help = suggesthelp)
-# async def suggestions(ctx, suggest):
-#     pass
-#
+@bot.command(pass_context = True, name = 'suggest', description = "Sends the Bot Dev a suggestion.", help = suggesthelp)
+async def suggest(ctx, *, suggestion):
+    # gets the channel and the message from the context.
+    destination = ctx.message.channel
+    message = ctx.message
+
+    await bot.delete_message(message)
+
+    with open('suggest.txt', 'a') as suggest:
+        suggest.write(str(ctx.message.author) + ' Suggestion: ' + ctx.message.content)
+
+    await bot.send_message(bot.get_user(bot.owner_id), 'Suggestion made. Check suggest.txt.')
+
+    await bot.send_message(destination, 'Your suggestion has been recorded.')
+
 # # Invoke: )view
 # @bot.group(pass_context = True, name = 'view', description = "Prints a list of memes.", help = listhelp)
 # async def view(ctx, meme):
