@@ -48,24 +48,43 @@ listhelp = 'Prints a list of all the memes available.'
 
 tbhelp = 'Prints top and bottom text memes.\n' \
          'Notes: This command can only be used with memes that are in the Top and Bottom List. ' \
-         '\nTEXT MUST BE IN SINGLE OR DOUBLE QUOTES.'
+         '\nTEXT MUST BE IN SINGLE OR DOUBLE QUOTES.\n' \
+         'Example: )tb simply "One does not simply" "Program and not hate themselves"'
 
 tophelp = 'Prints top text memes.\n' \
           'Notes: This command will only print toptext. It can only be used with memes that are in the Top List ' \
-          'or Top and Bottom list.'
+          'or Top and Bottom list.\n' \
+          'Example: )top mocking-spongebob I\'m an example sentence'
 
 bottomhelp = 'Prints bottom text memes.\n' \
              'Notes: This command will only print bottomtext. It can only be used with memes that are in the ' \
-             'Bottom List or Top and Bottom list.'
+             'Bottom List or Top and Bottom list.\n' \
+             'Example: )bottom roll-safe This isn\'t the correct format, but it works.'
 
 suggesthelp = 'Sends a suggestion to the dev.\n' \
               'Notes: This command will send all suggestions to the developer of the bot. ' \
-              'Feel free to suggest meme templates, features, or report any bugs here.'
+              'Feel free to suggest meme templates, features, or report any bugs here.\n' \
+              'Example: )suggest Hey dev, get your shit together and add more memes.'
 
+viewallhelp = 'Sends the user a template.\n' \
+              'Notes: This command will PM the user a list of all available memes to choose from.\n' \
+              'Example: )viewall '
 
-viewhelp = 'Sends the user a template.\n' \
-           'Notes: The user can type in a meme name and the bot will return a PM of what ' \
-           'the template looks like. '
+viewallTop = 'Sends the user a template.\n' \
+             'Notes: This command will PM the user a list of all available memes to choose from.\n' \
+             'Example: )viewall top '
+
+viewallTb = 'Sends the user a template.\n' \
+            'Notes: This command will PM the user a list of all available memes to choose from.\n' \
+            'Example: )viewall tb '
+
+viewallBottom = 'Sends the user a template.\n' \
+                'Notes: This command will PM the user a list of all available memes to choose from.\n' \
+                'Example: )viewall bottom '
+
+viewallMeme = 'Sends the user a template.\n' \
+              'Notes: This command will PM the user a list of all available memes to choose from.\n ' \
+              'Example: )viewall 10-guy '
 
 # ---------------------------Logs------------------------------------
 
@@ -115,7 +134,7 @@ async def on_command_error(error, ctx):
         await bot.delete_message(ctx.message)
         await bot.send_message(destination, "You are missing some arguments.")
 
-# Invoke: )tb
+# Invoke: )tb <memetype> <topstring> <bottomstring>
 @bot.command(pass_context=True, name='tb', description = "Prints top and bottom text.", help = tbhelp)
 async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str):
     # gets the channel and the message from the context.
@@ -138,7 +157,7 @@ async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str)
         # LOG
         commandWarning(ctx)
 
-# Invoke: )top
+# Invoke: )top <memetype> <topstring>
 @bot.command(pass_context = True, name = 'top',description = "Prints top atext.", help = tophelp)
 async def topText(ctx, memeType, *, topString):
     # gets the channel and the message from the context.
@@ -167,7 +186,7 @@ async def topText(ctx, memeType, *, topString):
         # LOG
         commandWarning(ctx)
 
-# Invoke: )bottom
+# Invoke: )bottom <memetype> <bottomstring>
 @bot.command(pass_context = True, name = 'bottom',description = "Prints bottom text.", help = bottomhelp)
 async def bottomText(ctx, memeType, *, bottomString):
     # gets the channel and the message from the context.
@@ -216,7 +235,7 @@ async def listMemes(ctx):
     # LOG
     commandInfo(ctx)
 
-# Invoke: )suggest
+# Invoke: )suggest <suggestion>
 @bot.command(pass_context = True, name = 'suggest', description = "Sends the Bot Dev a suggestion.", help = suggesthelp)
 async def suggest(ctx, *, suggestion):
     # gets the channel and the message from the context.
@@ -239,16 +258,15 @@ async def suggest(ctx, *, suggestion):
     #LOG
     commandInfo(ctx)
 
-# Invoke: )view
-@bot.group(pass_context = True, name = 'viewall', description = "Display templates.", help = viewhelp)
+# Invoke: )viewall
+@bot.group(pass_context = True, name = 'viewall', description = "Display templates.", help = viewallhelp)
 async def viewall(ctx):
-    destination = ctx.message.channel
     message = ctx.message
 
     await bot.delete_message(message)
 
     if ctx.invoked_subcommand is None:
-
+        # send all memes to user via PM
         await bot.send_message(ctx.message.author, "Top and Bottom Text.")
 
         for tb in topBottomList:
@@ -270,9 +288,10 @@ async def viewall(ctx):
         #LOG
         commandInfo(ctx)
 
-# Invoke )view all
-@viewall.command(pass_context = True, name = 'top')
+# Invoke )viewall top
+@viewall.command(pass_context = True, name = 'top', help = viewallTop )
 async def _top(ctx):
+    # send all toplist memes to user via PM
     for meme in toplist:
         await bot.send_message(ctx.message.author, meme + ":")
         await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
@@ -280,8 +299,10 @@ async def _top(ctx):
     #LOG
     commandInfo(ctx)
 
-@viewall.command(pass_context = True, name = 'tb')
+# Invoke )viewall tb
+@viewall.command(pass_context = True, name = 'tb', help = viewallTb)
 async def _tb(ctx):
+    # send all topBottomlist memes to user via PM
     for meme in topBottomList:
         await bot.send_message(ctx.message.author, meme + ":")
         await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
@@ -289,8 +310,10 @@ async def _tb(ctx):
     #LOG
     commandInfo(ctx)
 
-@viewall.command(pass_context = True, name = 'bottom')
+# Invoke )viewall bottom
+@viewall.command(pass_context = True, name = 'bottom', help = viewallBottom)
 async def _top(ctx):
+    # send all bottomlist memes to user via PM
     for meme in bottomlist:
         await bot.send_message(ctx.message.author, meme + ":")
         await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
@@ -298,10 +321,20 @@ async def _top(ctx):
     #LOG
     commandInfo(ctx)
 
-@viewall.command(pass_context = True, name = 'meme')
+# Invoke )viewall meme <meme>
+@viewall.command(pass_context = True, name = 'meme', help = viewallMeme)
 async def _view(ctx, meme):
+    # send specific meme template to user via PM
     if meme in toplist or meme in topBottomList or meme in bottomlist:
         await bot.send_message(ctx.message.author, meme + ":")
         await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
+        # LOG
+        commandInfo(ctx)
+
+    else:
+        await bot.send_message(ctx.message.author, "Can't find meme: " + meme)
+        #LOG
+        commandWarning(ctx)
+
 # Start bot
 bot.run(token.strip())
