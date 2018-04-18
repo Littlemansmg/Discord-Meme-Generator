@@ -238,11 +238,18 @@ async def suggest(ctx, *, suggestion):
     commandInfo(ctx)
 
 
-# # Invoke: )view
-# @bot.group(pass_context = True, name = 'view', description = "Prints a list of memes.", help = listhelp)
-# async def view(ctx, meme):
-#     pass
-#
+# Invoke: )view
+@bot.group(pass_context = True, name = 'view', description = "Display templates.", help = viewhelp)
+async def view(ctx, meme):
+    destination = ctx.message.author
+    message = ctx.message
+
+    await bot.delete_message(message)
+
+    if meme in topBottomList or meme in toplist or meme in bottomlist:
+        bot.send_message(destination, meme + ":")
+        bot.send_file(destination, 'Templates/' + meme + '.jpg')
+
 # # Invoke )view all
 # @view.command()
 # async def all():
