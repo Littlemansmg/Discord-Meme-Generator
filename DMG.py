@@ -104,10 +104,10 @@ def commandWarning(ctx):
 
 # ---------------------------Checks----------------------------------
 
-async def is_ascii(ctx):
+async def is_english(ctx):
     try:
         message = ctx.message.content
-        message.decode('utf-8')
+        message.encode(encoding = 'utf-8').decode('ascii')
     except UnicodeDecodeError:
         return False
 
