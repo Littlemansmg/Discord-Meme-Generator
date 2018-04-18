@@ -23,6 +23,7 @@ from discord.ext import commands
 from datetime import datetime as dt
 import discord
 import logging
+import asyncio
 
 logging.basicConfig(filename='discord.log', level = logging.INFO)
 
@@ -252,14 +253,17 @@ async def viewall(ctx):
         for tb in topBottomList:
             await bot.send_message(ctx.message.author, tb + ":")
             await bot.send_file(ctx.message.author, 'Templates/' + tb + '.jpg')
+            await asyncio.sleep(5)
 
         for top in toplist:
             await bot.send_message(ctx.message.author, top + ":")
             await bot.send_file(ctx.message.author, 'Templates/' + top + '.jpg')
+            await asyncio.sleep(5)
 
         for bottom in bottomlist:
             await bot.send_message(ctx.message.author, bottom + ":")
             await bot.send_file(ctx.message.author, 'Templates/' + bottom + '.jpg')
+        await asyncio.sleep(5)
 
         #LOG
         commandInfo(ctx)
