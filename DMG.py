@@ -84,7 +84,7 @@ viewallBottom = 'Sends the user a template.\n' \
 
 viewallMeme = 'Sends the user a template.\n' \
               'Notes: This command will PM the user a list of all available memes to choose from.\n ' \
-              'Example: )viewall 10-guy '
+              'Example: )viewall meme 10-guy '
 
 # ---------------------------Logs------------------------------------
 
