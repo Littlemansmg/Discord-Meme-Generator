@@ -23,7 +23,6 @@ from discord.ext import commands
 from datetime import datetime as dt
 import discord
 import logging
-import asyncio
 
 logging.basicConfig(filename='discord.log', level = logging.INFO)
 
@@ -290,7 +289,7 @@ async def _tb(ctx):
     #LOG
     commandInfo(ctx)
 
-@viewall.command(pass_context = True, name = 'top')
+@viewall.command(pass_context = True, name = 'bottom')
 async def _top(ctx):
     for meme in bottomlist:
         await bot.send_message(ctx.message.author, meme + ":")
