@@ -223,11 +223,13 @@ async def suggest(ctx, *, suggestion):
     with open('suggest.txt', 'a') as suggest:
         suggest.write(str(ctx.message.author) + ' Suggestion: ' + suggestion + "\n")
 
+    user = bot.get_user(bot.owner_id)
     await bot.send_message(destination, 'Your suggestion has been recorded.')
-    await bot.start_private_message(bot.get_user(179050708908113920))
-    await bot.send_message(bot.get_user(179050708908113920), 'Suggestion made. Check suggest.txt.')
+    # await bot.start_private_message(bot.get_user(179050708908113920))
+    await bot.send_message(user, 'Suggestion made. Check suggest.txt.')
 
-
+    # await bot.start_private_message(discord.Server.get_member(bot.get_server("416425570600222720"),ROAuth[6]))
+    # await bot.send_message(discord.Server.get_member(bot.get_server("416425570600222720"), ROAuth[6]), suggest[1])
 
 # # Invoke: )view
 # @bot.group(pass_context = True, name = 'view', description = "Prints a list of memes.", help = listhelp)
