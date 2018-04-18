@@ -263,7 +263,7 @@ async def view(ctx, meme):
         commandWarning(ctx)
 
 # Invoke )view all
-@view.command(pass_context = True)
+@view.command(pass_context = True, name = 'top')
 async def top(ctx):
     for meme in toplist:
         await bot.send_message(ctx.message.author, meme + ":")
