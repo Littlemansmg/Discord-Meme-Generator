@@ -92,7 +92,6 @@ async def on_command_error(error, ctx):
     if isinstance(error, commands.MissingRequiredArgument):
         # LOG
         now = dt.now().strftime('%m/%d %H:%M ')
-        server = ctx.server.name
         logging.error(now + str(error) + ' From: ' + ctx.message.server.name + ' ' +
                       str(ctx.message.author) + ' \'' + str(ctx.message.content) + ' \'')
 
