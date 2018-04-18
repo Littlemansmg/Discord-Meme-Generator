@@ -221,11 +221,12 @@ async def suggest(ctx, *, suggestion):
     await bot.delete_message(message)
 
     with open('suggest.txt', 'a') as suggest:
-        suggest.write(str(ctx.message.author) + ' Suggestion: ' + ctx.message.content)
-
-    await bot.send_message(bot.get_user(bot.owner_id), 'Suggestion made. Check suggest.txt.')
+        suggest.write(str(ctx.message.author) + ' Suggestion: ' + suggestion + "\n")
 
     await bot.send_message(destination, 'Your suggestion has been recorded.')
+    await bot.send_message(bot.get_user(179050708908113920), 'Suggestion made. Check suggest.txt.')
+
+
 
 # # Invoke: )view
 # @bot.group(pass_context = True, name = 'view', description = "Prints a list of memes.", help = listhelp)
