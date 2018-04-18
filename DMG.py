@@ -247,8 +247,8 @@ async def view(ctx, meme):
     await bot.delete_message(message)
 
     if meme in topBottomList or meme in toplist or meme in bottomlist:
-        bot.send_message(ctx.message.author, meme + ":")
-        bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
+        await bot.send_message(ctx.message.author, meme + ":")
+        await bot.send_file(ctx.message.author, 'Templates/' + meme + '.jpg')
 
 # # Invoke )view all
 # @view.command()
