@@ -105,7 +105,14 @@ def commandWarning(ctx):
 # ---------------------------Checks----------------------------------
 
 async def charMax(ctx):
-    return len(ctx.message.content) < 35
+    return
+def maxChar():
+    def predicate(ctx):
+        if len(ctx.message.content) < 35:
+            return True
+        else:
+            return False
+    return commands.check(predicate)
 
 # ---------------------------BOT-------------------------------------
 bot = commands.Bot(command_prefix=')', owner_id=179050708908113920)
@@ -141,7 +148,7 @@ async def on_command_error(error, ctx):
 
 # Invoke: )tb <memetype> <topstring> <bottomstring>
 @bot.command(pass_context=True, name='tb', description = "Prints top and bottom text.", help = tbhelp)
-@commands.check(charMax)
+@maxChar()
 async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str):
     # gets the channel and the message from the context.
     destination = ctx.message.channel
@@ -170,7 +177,7 @@ async def topandbottom_error(error, ctx):
 
 # Invoke: )top <memetype> <topstring>
 @bot.command(pass_context = True, name = 'top',description = "Prints top atext.", help = tophelp)
-@commands.check(charMax)
+@maxChar()
 async def topText(ctx, memeType, *, topString):
     # gets the channel and the message from the context.
     destination = ctx.message.channel
@@ -205,7 +212,7 @@ async def topText_error(error, ctx):
 
 # Invoke: )bottom <memetype> <bottomstring>
 @bot.command(pass_context = True, name = 'bottom',description = "Prints bottom text.", help = bottomhelp)
-@commands.check(charMax)
+@maxChar()
 async def bottomText(ctx, memeType, *, bottomString):
     # gets the channel and the message from the context.
     destination = ctx.message.channel
@@ -346,7 +353,7 @@ async def _top(ctx):
 
 # Invoke )viewall meme <meme>
 @viewall.command(pass_context = True, name = 'meme', help = viewallMeme)
-@commands.check(charMax)
+@maxChar()
 async def _view(ctx, meme):
     # send specific meme template to user via PM
     if meme in toplist or meme in topBottomList or meme in bottomlist:
