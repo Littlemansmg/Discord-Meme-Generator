@@ -108,7 +108,7 @@ async def charMax(ctx):
     return
 def maxChar():
     def predicate(ctx):
-        if len(ctx.message.content) < 35:
+        if len(ctx.message.content) <= 35:
             return True
         else:
             return False
@@ -173,7 +173,8 @@ async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str)
 @topAndBottom.error
 async def topandbottom_error(error, ctx):
     if isinstance(error, commands.CheckFailure):
-        await bot.send(ctx.message.channel, 'Sorry. No special characters allowed.')
+        destination = ctx.message.channel
+        await bot.send(destination, 'Sorry. Only 35 characters allowed to keep the meme looking good.')
 
 # Invoke: )top <memetype> <topstring>
 @bot.command(pass_context = True, name = 'top',description = "Prints top atext.", help = tophelp)
@@ -208,7 +209,8 @@ async def topText(ctx, memeType, *, topString):
 @topText.error
 async def topText_error(error, ctx):
     if isinstance(error, commands.CheckFailure):
-        await bot.send(ctx.message.channel, 'Sorry. No special characters allowed.')
+        destination = ctx.message.channel
+        await bot.send(destination, 'Sorry. Only 35 characters allowed to keep the meme looking good.')
 
 # Invoke: )bottom <memetype> <bottomstring>
 @bot.command(pass_context = True, name = 'bottom',description = "Prints bottom text.", help = bottomhelp)
@@ -243,7 +245,8 @@ async def bottomText(ctx, memeType, *, bottomString):
 @bottomText.error
 async def bottomText_error(error, ctx):
     if isinstance(error, commands.CheckFailure):
-        await bot.send(ctx.message.channel, 'Sorry. No special characters allowed.')
+        destination = ctx.message.channel
+        await bot.send(destination, 'Sorry. Only 35 characters allowed to keep the meme looking good.')
 
 # Invoke: )list
 @bot.command(pass_context = True, name = 'list', description = "Prints a list of memes.", help = listhelp)
