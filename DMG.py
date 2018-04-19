@@ -24,7 +24,7 @@ from datetime import datetime as dt
 import discord
 import logging
 
-logging.basicConfig(filename='discord.log', level = logging.INFO)
+logging.basicConfig(handlers = [logging.FileHandler('discord.log', 'a', 'utf-8')], level = logging.INFO)
 
 # memes that only use )top (top text only)
 toplist = ['mocking-spongebob']
