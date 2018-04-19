@@ -108,7 +108,8 @@ async def charMax(ctx):
     return
 def maxChar():
     def predicate(ctx):
-        if len(ctx.message.content) <= 35:
+        message = ctx.message.content
+        if len(message) <= 35:
             return True
         else:
             return False
@@ -171,7 +172,7 @@ async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str)
         commandWarning(ctx)
 
 @topAndBottom.error
-async def topandbottom_error(error, ctx):
+async def topandbottom_error(ctx, error):
     if isinstance(error, commands.CheckFailure):
         destination = ctx.message.channel
         await bot.send(destination, 'Sorry. Only 35 characters allowed to keep the meme looking good.')
@@ -207,7 +208,7 @@ async def topText(ctx, memeType, *, topString):
         commandWarning(ctx)
 
 @topText.error
-async def topText_error(error, ctx):
+async def topText_error(ctx, error):
     if isinstance(error, commands.CheckFailure):
         destination = ctx.message.channel
         await bot.send(destination, 'Sorry. Only 35 characters allowed to keep the meme looking good.')
