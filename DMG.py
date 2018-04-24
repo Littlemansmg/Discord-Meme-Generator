@@ -377,7 +377,7 @@ async def _view(ctx, meme):
         #LOG
         commandWarning(ctx)
 
-@bot.commands(pass_context = True, name = 'dev', description = 'Prints dev notes', help = devhelp)
+@bot.command(pass_context = True, name = 'dev', description = 'Prints dev notes', help = devhelp)
 async def dev(ctx):
     # gets the channel and the message from the context.
     destination = ctx.message.channel
