@@ -21,8 +21,10 @@ Github:
 from MemeFormatting import *
 from discord.ext import commands
 from datetime import datetime as dt
+import asyncio
 import discord
 import logging
+
 
 logging.basicConfig(handlers = [logging.FileHandler('discord.log', 'a', 'utf-8')], level = logging.INFO)
 
@@ -86,6 +88,10 @@ viewallMeme = 'Sends the user a template.\n' \
               'Notes: This command will PM the user a list of all available memes to choose from.\n ' \
               'Example: )viewall meme 10-guy '
 
+devhelp = 'Provides notes and info from the dev.\n' \
+          'Notes: This command is just to print out the dev\'s notes/thoughts.\n' \
+          'Example: )dev'
+
 # ---------------------------Logs------------------------------------
 
 def commandInfo(ctx):
@@ -114,7 +120,7 @@ def commandWarning(ctx):
 #         else:
 #             return False
 #     return commands.check(predicate)
-
+pass
 # ---------------------------BOT-------------------------------------
 bot = commands.Bot(command_prefix=')', owner_id=179050708908113920)
 
@@ -178,7 +184,7 @@ async def topandbottom_error(ctx, error):
         await bot.send(destination, 'Sorry. Only 35 characters allowed to keep the meme looking good.')
 
 # Invoke: )top <memetype> <topstring>
-@bot.command(pass_context = True, name = 'top',description = "Prints top atext.", help = tophelp)
+@bot.command(pass_context = True, name = 'top',description = "Prints top text.", help = tophelp)
 #@maxChar()
 async def topText(ctx, memeType, *, topString):
     # gets the channel and the message from the context.
@@ -371,5 +377,29 @@ async def _view(ctx, meme):
         #LOG
         commandWarning(ctx)
 
+@bot.commands(pass_context = True, name = 'dev', description = 'Prints dev notes', help = devhelp)
+async def dev(ctx):
+    # gets the channel and the message from the context.
+    destination = ctx.message.channel
+    message = ctx.message
+
+    await bot.delete_message(message)
+
+    notes = '```' \
+            'Author: Scott "LittlemanSMG" Goes.\n' \
+            'Language: Python.\n' \
+            'Notes about Generation-Meme: It only supports bottom and top text memes. This is because ' \
+            'I\'m lazy and I need to learn how to format each meme. If you want to help, leave a' \
+            'suggestion and I will get in contact with you.\n' \
+            'LOGGING: I\'m currently keeping logs of my bot usage. Log format goes as follows;\n' \
+            '  <date> <server_name> <server_ID> <Username#0000> <command used>\n' \
+            '```'
+    await bot.send_message(destination, notes)
+
+#test: bot doesn't turn off randomly
+loop = asyncio.get_event_loop()
+
+loop.run_until_complete(bot.run(token.strip()))
+
 # Start bot
-bot.run(token.strip())
+# bot.run(token.strip())
