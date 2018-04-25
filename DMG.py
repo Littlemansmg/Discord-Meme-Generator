@@ -125,7 +125,7 @@ def is_owner_check():
 
 def oofSettingOn():
     with open('command settings/oof.txt') as oof:
-        bool = oof.readlines()
+        bool = oof.readline()
     return bool
 
 pass
@@ -141,7 +141,7 @@ async def on_ready():
 async def on_message(message):
     bool = oofSettingOn()
     content = message.content
-    if content.lower().startswith('oof') and bool == 'True':
+    if content.lower().startswith('oof') and bool.strip() == 'True':
         await bot.delete_message(message)
 
         await bot.send_file(message.channel, 'command settings/oof.jpg')
