@@ -109,6 +109,13 @@ def commandWarning(ctx):
                     + ' Author: ' + str(ctx.message.author)
                     + ' Invoke: \'' + str(ctx.message.content) + ' \'')
 
+def masterWarning(ctx):
+    now = dt.now().strftime('%m/%d %H:%M ')
+    logging.info(now + ' Command Used: '
+                 + ' Server: ' + ctx.message.server.name + ':' + ctx.message.server.id
+                 + ' Author: ' + str(ctx.message.author)
+                 + ' Invoke: \'' + str(ctx.message.content) + ' \'')
+
 # ---------------------------Checks----------------------------------
 
 # async def charMax(ctx):
@@ -408,13 +415,17 @@ async def personalCommand(ctx, *, announcement):
 
     await bot.send_message(destination, '```' + announcement + '```')
 
+@personalCommand.error
+async def personalCommand_error(ctx, error):
+    if isinstance(error, commands.CheckFailure):
+        destination = ctx.message.channel
+        await bot.send_message(destination, "Fuck you. *How do you even know this command exists?*")
+        masterWarning(ctx)
+
 #test: bot doesn't turn off randomly
 loop = asyncio.get_event_loop()
 
 loop.run_until_complete(bot.run(token.strip()))
-
-if __name__ == '__main__':
-    unittest.main()
 
 # Start bot
 # bot.run(token.strip())
