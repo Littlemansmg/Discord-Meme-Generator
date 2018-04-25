@@ -145,8 +145,6 @@ async def on_message(message):
         await bot.delete_message(message)
 
         await bot.send_file(message.channel, 'command settings/oof.jpg')
-    else:
-        await bot.send_message(message.channel, 'I\'m doing my best. :\'(')
 
 # execute if there is an error with a command.
 @bot.event
