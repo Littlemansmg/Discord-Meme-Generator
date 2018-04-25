@@ -393,7 +393,7 @@ async def dev(ctx):
     await bot.send_message(destination, notes)
 
 @bot.command(pass_context = True, name = 'master', hidden = True)
-@commands.is_owner()
+@commands.is_owner(bot.owner_id)
 async def personalCommand(ctx, *, announcement):
     destination = ctx.message.channel
     message = ctx.message
