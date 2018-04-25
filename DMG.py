@@ -141,7 +141,7 @@ async def on_ready():
 async def on_message(message):
     bool = oofSettingOn()
     content = message.content
-    if content.lower() == 'oof' and bool == 'True':
+    if content.lower().startswith('oof') and bool == 'True':
         await bot.delete_message(message)
 
         await bot.send_file(message.channel, 'command settings/oof.jpg')
