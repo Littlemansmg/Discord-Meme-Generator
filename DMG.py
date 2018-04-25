@@ -128,12 +128,11 @@ def is_admin_check():
         return ctx.message.author.discord.Permissions.administrator
     return commands.check(predicate)
 
-def oofSettingOn():
-    with open('command settings/oof.txt') as oof:
-        bool = oof.readline()
-    return bool
+# def oofSettingOn():
+#     with open('command settings/oof.txt') as oof:
+#         bool = oof.readline()
+#     return bool
 
-pass
 # ---------------------------BOT-------------------------------------
 bot = commands.Bot(command_prefix=')')
 
@@ -142,14 +141,14 @@ bot = commands.Bot(command_prefix=')')
 async def on_ready():
     await bot.change_presence(game = discord.Game(name = "Type )help for help"))
 
-@bot.event
-async def on_message(message):
-    bool = oofSettingOn()
-    content = message.content
-    if content.lower().startswith('oof') and bool.strip() == 'True':
-        await bot.delete_message(message)
-
-        await bot.send_file(message.channel, 'command settings/oof.jpg')
+# @bot.event
+# async def on_message(message):
+#     bool = oofSettingOn()
+#     content = message.content
+#     if content.lower().startswith('oof') and bool.strip() == 'True':
+#         await bot.delete_message(message)
+#
+#         await bot.send_file(message.channel, 'command settings/oof.jpg')
 
 # execute if there is an error with a command.
 @bot.event
@@ -433,26 +432,26 @@ async def personalCommand_error(error, ctx):
     await bot.send_message(destination, "Fuck you. *How do you even know this command exists?*")
     masterWarning(ctx)
 
-@bot.command(pass_context = True, name = 'oof', description = 'Turns oof on or off')
-@is_admin_check()
-async def oofSetting(ctx):
-    destination = ctx.message.channel
-    message = ctx.message
-    ison = oofSettingOn()
-
-    await bot.delete_message(message)
-
-    if ison == 'True':
-        with open('command settings/oof.txt', ) as oof:
-            oof.write('False')
-
-        await bot.send_message(destination, "oof setting is now off.")
-
-    else:
-        with open('command settings/oof.txt') as oof:
-            oof.write('True')
-
-        await bot.send_message(destination, "oof setting is now off.")
+# @bot.command(pass_context = True, name = 'oof', description = 'Turns oof on or off')
+# @is_admin_check()
+# async def oofSetting(ctx):
+#     destination = ctx.message.channel
+#     message = ctx.message
+#     ison = oofSettingOn()
+#
+#     await bot.delete_message(message)
+#
+#     if ison == 'True':
+#         with open('command settings/oof.txt', ) as oof:
+#             oof.write('False')
+#
+#         await bot.send_message(destination, "oof setting is now off.")
+#
+#     else:
+#         with open('command settings/oof.txt') as oof:
+#             oof.write('True')
+#
+#         await bot.send_message(destination, "oof setting is now off.")
 
 #test: bot doesn't turn off randomly
 try:
