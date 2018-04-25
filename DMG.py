@@ -421,7 +421,9 @@ async def personalCommand_error(error, ctx):
 
 @bot.event
 async def on_message(message):
-    if message.content.lower() == 'oof' and oofSettingOn() == 'True':
+    bool = oofSettingOn()
+    content = message.content
+    if content.lower() == 'oof' and bool == 'True':
         await bot.delete_message(message)
 
         await bot.send_file(message.channel, 'command settings/oof.jpg')
