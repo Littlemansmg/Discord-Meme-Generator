@@ -123,6 +123,11 @@ def is_owner_check():
         return ctx.message.author.id == '179050708908113920'
     return commands.check(predicate)
 
+def is_admin_check():
+    def predicate(ctx):
+        return ctx.message.author.discord.Permissions.administrator
+    return commands.check(predicate)
+
 def oofSettingOn():
     with open('command settings/oof.txt') as oof:
         bool = oof.readline()
@@ -429,7 +434,7 @@ async def personalCommand_error(error, ctx):
     masterWarning(ctx)
 
 @bot.command(pass_context = True, name = 'oof', description = 'Turns oof on or off')
-@commands.has_permissions(administrator = True)
+@is_admin_check()
 async def oofSetting(ctx):
     destination = ctx.message.channel
     message = ctx.message
@@ -442,10 +447,11 @@ async def oofSetting(ctx):
             oof.write('False')
 
         await bot.send_message(destination, "oof setting is now off.")
+
     else:
         with open('command settings/oof.txt') as oof:
             oof.write('True')
-            
+
         await bot.send_message(destination, "oof setting is now off.")
 
 #test: bot doesn't turn off randomly
