@@ -421,19 +421,21 @@ async def personalCommand(ctx, *, announcement):
     await bot.send_message(destination, '```' + announcement + '```')
 
 @personalCommand.error
-async def personalCommand_error(ctx, error):
+async def personalCommand_error(error, ctx):
     destination = ctx.message.channel
     message = ctx.message
-    
+
     await bot.delete_message(message)
 
     await bot.send_message(destination, "Fuck you. *How do you even know this command exists?*")
     masterWarning(ctx)
 
 #test: bot doesn't turn off randomly
-loop = asyncio.get_event_loop()
-
-loop.run_until_complete(bot.run(token.strip()))
+try:
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(bot.run(token.strip()))
+except:
+    print ('This is probably a Runtime error from turning me off.')
 
 # Start bot
 # bot.run(token.strip())
