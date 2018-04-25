@@ -121,9 +121,14 @@ def commandWarning(ctx):
 #         else:
 #             return False
 #     return commands.check(predicate)
+
+def is_owner_check():
+    def predicate(ctx):
+        return ctx.message.author.id == '179050708908113920'
+
 pass
 # ---------------------------BOT-------------------------------------
-bot = commands.Bot(command_prefix=')', owner_id=179050708908113920)
+bot = commands.Bot(command_prefix=')')
 
 # execute when bot is logged in and ready
 @bot.event
@@ -393,7 +398,7 @@ async def dev(ctx):
     await bot.send_message(destination, notes)
 
 @bot.command(pass_context = True, name = 'master', hidden = True)
-@commands.is_owner(bot.owner_id)
+@is_owner_check
 async def personalCommand(ctx, *, announcement):
     destination = ctx.message.channel
     message = ctx.message
