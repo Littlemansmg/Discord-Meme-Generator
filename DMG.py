@@ -162,6 +162,11 @@ async def on_command_error(error, ctx):
         await bot.delete_message(ctx.message)
         await bot.send_message(destination, "You are missing some arguments.")
 
+    if isinstance(error, commands.CheckFailure):
+        destination = ctx.message.channel
+        await bot.send_message(destination, "Fuck you. *How do you even know this command exists?*")
+        masterWarning(ctx)
+
 # Invoke: )tb <memetype> <topstring> <bottomstring>
 @bot.command(pass_context=True, name='tb', description = "Prints top and bottom text.", help = tbhelp)
 #@maxChar()
@@ -417,10 +422,13 @@ async def personalCommand(ctx, *, announcement):
 
 @personalCommand.error
 async def personalCommand_error(ctx, error):
-    if isinstance(error, commands.CheckFailure):
-        destination = ctx.message.channel
-        await bot.send_message(destination, "Fuck you. *How do you even know this command exists?*")
-        masterWarning(ctx)
+    destination = ctx.message.channel
+    message = ctx.message
+    
+    await bot.delete_message(message)
+
+    await bot.send_message(destination, "Fuck you. *How do you even know this command exists?*")
+    masterWarning(ctx)
 
 #test: bot doesn't turn off randomly
 loop = asyncio.get_event_loop()
