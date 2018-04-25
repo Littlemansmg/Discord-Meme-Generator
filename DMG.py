@@ -428,6 +428,26 @@ async def personalCommand_error(error, ctx):
     await bot.send_message(destination, "Fuck you. *How do you even know this command exists?*")
     masterWarning(ctx)
 
+@bot.command(pass_context = True, name = 'oof', description = 'Turns oof on or off')
+@commands.has_permissions(administrator = True)
+async def oofSetting(ctx):
+    destination = ctx.message.channel
+    message = ctx.message
+    ison = oofSettingOn()
+
+    await bot.delete_message(message)
+
+    if ison == 'True':
+        with open('command settings/oof.txt', ) as oof:
+            oof.write('False')
+
+        await bot.send_message(destination, "oof setting is now off.")
+    else:
+        with open('command settings/oof.txt') as oof:
+            oof.write('True')
+            
+        await bot.send_message(destination, "oof setting is now off.")
+
 #test: bot doesn't turn off randomly
 try:
     loop = asyncio.get_event_loop()
