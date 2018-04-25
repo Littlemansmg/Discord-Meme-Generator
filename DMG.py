@@ -137,6 +137,17 @@ bot = commands.Bot(command_prefix=')')
 async def on_ready():
     await bot.change_presence(game = discord.Game(name = "Type )help for help"))
 
+@bot.event
+async def on_message(message):
+    bool = oofSettingOn()
+    content = message.content
+    if content.lower() == 'oof' and bool == 'True':
+        await bot.delete_message(message)
+
+        await bot.send_file(message.channel, 'command settings/oof.jpg')
+    else:
+        await bot.send_message(message.channel, 'I\'m doing my best. :\'(')
+
 # execute if there is an error with a command.
 @bot.event
 async def on_command_error(error, ctx):
@@ -418,15 +429,6 @@ async def personalCommand_error(error, ctx):
 
     await bot.send_message(destination, "Fuck you. *How do you even know this command exists?*")
     masterWarning(ctx)
-
-@bot.event
-async def on_message(message):
-    bool = oofSettingOn()
-    content = message.content
-    if content.lower() == 'oof' and bool == 'True':
-        await bot.delete_message(message)
-
-        await bot.send_file(message.channel, 'command settings/oof.jpg')
 
 #test: bot doesn't turn off randomly
 try:
