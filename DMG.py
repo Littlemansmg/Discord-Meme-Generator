@@ -24,6 +24,7 @@ from datetime import datetime as dt
 import asyncio
 import discord
 import logging
+import unittest
 
 
 logging.basicConfig(handlers = [logging.FileHandler('discord.log', 'a', 'utf-8')], level = logging.INFO)
@@ -96,17 +97,17 @@ devhelp = 'Provides notes and info from the dev.\n' \
 
 def commandInfo(ctx):
     now = dt.now().strftime('%m/%d %H:%M ')
-    logging.info(now + ' Command Used: ' +
-                 ' Server: ' +ctx.message.server.name + ':' + ctx.message.server.id +
-                 ' Author: ' + str(ctx.message.author) +
-                 ' Invoke: \'' + str(ctx.message.content) + ' \'')
+    logging.info(now + ' Command Used: '
+                 + ' Server: ' +ctx.message.server.name + ':' + ctx.message.server.id
+                 + ' Author: ' + str(ctx.message.author)
+                 + ' Invoke: \'' + str(ctx.message.content) + ' \'')
 
 def commandWarning(ctx):
     now = dt.now().strftime('%m-%d_%H:%M:%S')
-    logging.warning(now + ' Meme Missing.' +
-                    ' Server: ' + ctx.message.server.name + ':' + ctx.message.server.id +
-                    ' Author: ' + str(ctx.message.author) +
-                    ' Invoke: \'' + str(ctx.message.content) + ' \'')
+    logging.warning(now + ' Meme Missing.'
+                    + ' Server: ' + ctx.message.server.name + ':' + ctx.message.server.id
+                    + ' Author: ' + str(ctx.message.author)
+                    + ' Invoke: \'' + str(ctx.message.content) + ' \'')
 
 # ---------------------------Checks----------------------------------
 
@@ -127,11 +128,6 @@ bot = commands.Bot(command_prefix=')', owner_id=179050708908113920)
 # execute when bot is logged in and ready
 @bot.event
 async def on_ready():
-    print('Logged in as')
-    print(bot.user.name)
-    print(bot.user.id)
-    print('----------')
-    # set what the bot is playing.
     await bot.change_presence(game = discord.Game(name = "Type )help for help"))
 
 # execute if there is an error with a command.
@@ -144,10 +140,10 @@ async def on_command_error(error, ctx):
     if isinstance(error, commands.MissingRequiredArgument):
         # LOG
         now = dt.now().strftime('%m/%d %H:%M ')
-        logging.error(now + str(error) +
-                      ' Server: ' + ctx.message.server.name + ':' + ctx.message.server.id +
-                      ' Author: ' + str(ctx.message.author) +
-                      ' Invoke: \'' + str(ctx.message.content) + ' \'')
+        logging.error(now + str(error)
+                      + ' Server: ' + ctx.message.server.name + ':' + ctx.message.server.id
+                      + ' Author: ' + str(ctx.message.author)
+                      + ' Invoke: \'' + str(ctx.message.content) + ' \'')
 
         # send error to discord.
         await bot.delete_message(ctx.message)
@@ -181,7 +177,7 @@ async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str)
 async def topandbottom_error(ctx, error):
     if isinstance(error, commands.CheckFailure):
         destination = ctx.message.channel
-        await bot.send(destination, 'Sorry. Only 35 characters allowed to keep the meme looking good.')
+        await bot.send_message(destination, 'Sorry. Only 35 characters allowed to keep the meme looking good.')
 
 # Invoke: )top <memetype> <topstring>
 @bot.command(pass_context = True, name = 'top',description = "Prints top text.", help = tophelp)
@@ -387,19 +383,32 @@ async def dev(ctx):
 
     notes = '```' \
             'Author: Scott "LittlemanSMG" Goes.\n' \
-            'Language: Python.\n' \
+            'Language: Python.\n\n' \
             'Notes about Generation-Meme: It only supports bottom and top text memes. This is because ' \
             'I\'m lazy and I need to learn how to format each meme. If you want to help, leave a' \
-            'suggestion and I will get in contact with you.\n' \
+            'suggestion and I will get in contact with you.\n\n' \
             'LOGGING: I\'m currently keeping logs of my bot usage. Log format goes as follows;\n' \
             '  <date> <server_name> <server_ID> <Username#0000> <command used>\n' \
             '```'
     await bot.send_message(destination, notes)
 
+@bot.command(pass_context = True, name = 'master', hidden = True)
+@commands.is_owner()
+async def personalCommand(ctx, *, announcement):
+    destination = ctx.message.channel
+    message = ctx.message
+
+    await bot.delete_message(message)
+
+    await bot.send_message(destination, '```' + announcement + '```')
+
 #test: bot doesn't turn off randomly
 loop = asyncio.get_event_loop()
 
 loop.run_until_complete(bot.run(token.strip()))
+
+if __name__ == '__main__':
+    unittest.main()
 
 # Start bot
 # bot.run(token.strip())
