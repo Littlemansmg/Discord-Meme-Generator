@@ -118,21 +118,15 @@ def masterWarning(ctx):
 
 # ---------------------------Checks----------------------------------
 
-# async def charMax(ctx):
-#     return
-# def maxChar():
-#     def predicate(ctx):
-#         message = ctx.message.content
-#         if len(message) <= 35:
-#             return True
-#         else:
-#             return False
-#     return commands.check(predicate)
-
 def is_owner_check():
     def predicate(ctx):
         return ctx.message.author.id == '179050708908113920'
     return commands.check(predicate)
+
+def oofSettingOn():
+    with open('command settings/oof.txt') as oof:
+        bool = oof.readlines()
+    return bool
 
 pass
 # ---------------------------BOT-------------------------------------
@@ -161,7 +155,7 @@ async def on_command_error(error, ctx):
         # send error to discord.
         await bot.delete_message(ctx.message)
         await bot.send_message(destination, "You are missing some arguments.")
-        
+
 # Invoke: )tb <memetype> <topstring> <bottomstring>
 @bot.command(pass_context=True, name='tb', description = "Prints top and bottom text.", help = tbhelp)
 #@maxChar()
@@ -425,12 +419,16 @@ async def personalCommand_error(error, ctx):
     await bot.send_message(destination, "Fuck you. *How do you even know this command exists?*")
     masterWarning(ctx)
 
+@bot.event
+async def on_message(message):
+    if message.content.lower() == 'oof' and oofSettingOn() == 'True':
+        await bot.delete_message(message)
+
+        await bot.send_file(message.channel, 'command settings/oof.jpg')
+
 #test: bot doesn't turn off randomly
 try:
     loop = asyncio.get_event_loop()
     loop.run_until_complete(bot.run(token.strip()))
 except:
     print ('This is probably a Runtime error from turning me off.')
-
-# Start bot
-# bot.run(token.strip())
