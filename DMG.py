@@ -227,7 +227,7 @@ async def topText(ctx, memeType, *, topString):
     await bot.delete_message(message)
 
     if len(topString) > 35:
-        raise commands.CheckFailure
+        commands.CheckFailure()
     # check if in proper list
     if memeType in toplist:
         send = top_bottom(memeType, topString, '')
