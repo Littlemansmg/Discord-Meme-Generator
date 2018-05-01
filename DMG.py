@@ -123,11 +123,18 @@ def is_owner_check():
         return ctx.message.author.id == '179050708908113920'
     return commands.check(predicate)
 
-def is_admin_check():
+# Doesn't work
+# def is_admin_check():
+#     def predicate(ctx):
+#         return ctx.message.author.discord.Permissions.administrator
+#     return commands.check(predicate)
+
+def maxChar():
     def predicate(ctx):
-        return ctx.message.author.discord.Permissions.administrator
+        return len(ctx.message.content) < 40
     return commands.check(predicate)
 
+# Doesn't work
 # def oofSettingOn():
 #     with open('command settings/oof.txt') as oof:
 #         bool = oof.readline()
@@ -171,7 +178,7 @@ async def on_command_error(error, ctx):
 
 # Invoke: )tb <memetype> <topstring> <bottomstring>
 @bot.command(pass_context=True, name='tb', description = "Prints top and bottom text.", help = tbhelp)
-#@maxChar()
+# @maxChar()
 async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str):
     # gets the channel and the message from the context.
     destination = ctx.message.channel
@@ -201,7 +208,7 @@ async def topandbottom_error(ctx, error):
 
 # Invoke: )top <memetype> <topstring>
 @bot.command(pass_context = True, name = 'top',description = "Prints top text.", help = tophelp)
-#@maxChar()
+@maxChar()
 async def topText(ctx, memeType, *, topString):
     # gets the channel and the message from the context.
     destination = ctx.message.channel
@@ -233,7 +240,7 @@ async def topText(ctx, memeType, *, topString):
 async def topText_error(ctx, error):
     if isinstance(error, commands.CheckFailure):
         destination = ctx.message.channel
-        await bot.send(destination, 'Sorry. Only 35 characters allowed to keep the meme looking good.')
+        await bot.send_message(destination, 'Sorry. Only 35 characters allowed to keep the meme looking good.')
 
 # Invoke: )bottom <memetype> <bottomstring>
 @bot.command(pass_context = True, name = 'bottom',description = "Prints bottom text.", help = bottomhelp)
@@ -453,7 +460,7 @@ async def personalCommand_error(error, ctx):
 #
 #         await bot.send_message(destination, "oof setting is now off.")
 
-#test: bot doesn't turn off randomly
+#Run bot.
 try:
     loop = asyncio.get_event_loop()
     loop.run_until_complete(bot.run(token.strip()))
