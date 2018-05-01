@@ -226,6 +226,8 @@ async def topText(ctx, memeType, *, topString):
 
     await bot.delete_message(message)
 
+    if len(topString) > 35:
+        raise commands.CheckFailure
     # check if in proper list
     if memeType in toplist:
         send = top_bottom(memeType, topString, '')
@@ -247,15 +249,9 @@ async def topText(ctx, memeType, *, topString):
         commandWarning(ctx)
 
 @topText.error
-async def topText_error(error, ctx):
+async def topText_error(error):
     if isinstance(error, commands.CheckFailure):
-        destination = ctx.message.channel
-        message = ctx.message
-
-        # deletes message that invoked the command.
-        await bot.delete_message(message)
-
-        await bot.send_message(destination, 'Sorry. Only 35 characters allowed to keep the meme looking good.')
+        await bot.say('Sorry. Only 35 characters allowed to keep the meme looking good.')
 
 # Invoke: )bottom <memetype> <bottomstring>
 @bot.command(pass_context = True, name = 'bottom',description = "Prints bottom text.", help = bottomhelp)
