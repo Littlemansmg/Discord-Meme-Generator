@@ -218,7 +218,7 @@ async def topandbottom_error(ctx, error):
 
 # Invoke: )top <memetype> <topstring>
 @bot.command(pass_context = True, name = 'top',description = "Prints top text.", help = tophelp)
-@maxChar()
+# @maxChar()
 async def topText(ctx, memeType, *, topString):
     # gets the channel and the message from the context.
     destination = ctx.message.channel
