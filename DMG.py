@@ -204,6 +204,11 @@ async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str)
 async def topandbottom_error(ctx, error):
     if isinstance(error, commands.CheckFailure):
         destination = ctx.message.channel
+        message = ctx.message
+
+        # deletes message that invoked the command.
+        await bot.delete_message(message)
+
         await bot.send_message(destination, 'Sorry. Only 35 characters allowed to keep the meme looking good.')
 
 # Invoke: )top <memetype> <topstring>
@@ -237,7 +242,7 @@ async def topText(ctx, memeType, *, topString):
         commandWarning(ctx)
 
 @topText.error
-async def topText_error(ctx, error):
+async def topText_error(error, ctx):
     if isinstance(error, commands.CheckFailure):
         destination = ctx.message.channel
         await bot.send_message(destination, 'Sorry. Only 35 characters allowed to keep the meme looking good.')
