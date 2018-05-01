@@ -414,6 +414,7 @@ async def dev(ctx):
             'Notes about Generation-Meme: It only supports bottom and top text memes. This is because ' \
             'I\'m lazy and I need to learn how to format each meme. If you want to help, leave a' \
             'suggestion and I will get in contact with you.\n\n' \
+            'Github: https://github.com/Littlemansmg/Discord-Meme-Generator \n\n' \
             'LOGGING: I\'m currently keeping logs of my bot usage. Log format goes as follows;\n' \
             '  <date> <server_name> <server_ID> <Username#0000> <command used>\n' \
             '```'
