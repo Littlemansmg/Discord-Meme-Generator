@@ -10,6 +10,7 @@ I'm currently working on making the bot public, but if you want to make changes 
 * Python 3 needs to be installed on whatever device is hosting the bot.
 * Impatct font `impact.ttf` must be installed on whatever device is hosting the bot.
 
+### Instructions
 * Download the source code.
 * Change `bot.run(token.strip())` to `bot.run('YOUR TOKEN HERE')`
 * Powershell
