@@ -133,7 +133,7 @@ def maxChar():
     def predicate(ctx):
         args = ctx.args
         for string in args:
-            if len(args[string]) > 35:
+            if len(args.index(string)) > 35:
                 return False
         return True
     return commands.check(predicate)
