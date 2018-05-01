@@ -249,9 +249,8 @@ async def topText(ctx, memeType, *, topString):
         commandWarning(ctx)
 
 @topText.error
-async def topText_error(error):
-    if isinstance(error, commands.CheckFailure):
-        await bot.say('Sorry. Only 35 characters allowed to keep the meme looking good.')
+async def topText_error():
+    await bot.say('Sorry. Only 35 characters allowed to keep the meme looking good.')
 
 # Invoke: )bottom <memetype> <bottomstring>
 @bot.command(pass_context = True, name = 'bottom',description = "Prints bottom text.", help = bottomhelp)
