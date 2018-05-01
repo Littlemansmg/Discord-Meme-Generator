@@ -254,7 +254,7 @@ async def topText_error(error, ctx):
 
         # deletes message that invoked the command.
         await bot.delete_message(message)
-        await bot.send_message(destination, ctx.kwargs)
+        await bot.send_message(destination, ', '.join(ctx.args) + ', '.join(ctx.kwargs))
         await bot.send_message(destination, 'Sorry. Only 35 characters allowed to keep the meme looking good.')
 
 # Invoke: )bottom <memetype> <bottomstring>
