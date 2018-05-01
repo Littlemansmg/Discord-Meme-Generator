@@ -131,9 +131,9 @@ def is_owner_check():
 
 def maxChar():
     def predicate(ctx):
-        args = ctx.args
-        for x in args:
-            if len(args[x]) > 35:
+        kwargs = ctx.kwargs
+        for x in kwargs:
+            if len(kwargs[x]) > 35:
                 return False
             else:
                 return True
@@ -254,7 +254,7 @@ async def topText_error(error, ctx):
 
         # deletes message that invoked the command.
         await bot.delete_message(message)
-        await bot.send_message(destination, ', '.join(ctx.args) + ', '.join(ctx.kwargs))
+
         await bot.send_message(destination, 'Sorry. Only 35 characters allowed to keep the meme looking good.')
 
 # Invoke: )bottom <memetype> <bottomstring>
