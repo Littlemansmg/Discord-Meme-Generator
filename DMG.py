@@ -131,7 +131,11 @@ def is_owner_check():
 
 def maxChar():
     def predicate(ctx):
-        return len(ctx.message.content) < 40
+        args = ctx.args
+        for string in args:
+            if len(string) > 35:
+                return False
+        return True
     return commands.check(predicate)
 
 # Doesn't work
