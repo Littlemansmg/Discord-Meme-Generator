@@ -36,7 +36,6 @@ toplist = ['mocking-spongebob']
 bottomlist = []
 
 # memes that use )top )bottom )tb
-# TODO: Make a list for top and bottom only memes?
 topBottomList = [
     '10-guy', 'bad-luck-brian', 'danger-zucc', 'good-guy-greg', 'roll-safe',
     'simply', 'successkid', 'willy-wonka', 'zucc']
@@ -98,13 +97,20 @@ devhelp = 'Provides notes and info from the dev.\n' \
 def commandInfo(ctx):
     now = dt.now().strftime('%m/%d %H:%M ')
     logging.info(now + ' Command Used: '
-                 + ' Server: ' +ctx.message.server.name + ':' + ctx.message.server.id
+                 + ' Server: ' + ctx.message.server.name + ':' + ctx.message.server.id
                  + ' Author: ' + str(ctx.message.author)
                  + ' Invoke: \'' + str(ctx.message.content) + ' \'')
 
 def commandWarning(ctx):
     now = dt.now().strftime('%m-%d_%H:%M:%S')
     logging.warning(now + ' Meme Missing.'
+                    + ' Server: ' + ctx.message.server.name + ':' + ctx.message.server.id
+                    + ' Author: ' + str(ctx.message.author)
+                    + ' Invoke: \'' + str(ctx.message.content) + ' \'')
+
+def commandCharLimit(ctx):
+    now = dt.now().strftime('%m-%d_%H:%M:%S')
+    logging.warning(now + ' Char limit reached.'
                     + ' Server: ' + ctx.message.server.name + ':' + ctx.message.server.id
                     + ' Author: ' + str(ctx.message.author)
                     + ' Invoke: \'' + str(ctx.message.content) + ' \'')
@@ -129,15 +135,12 @@ def is_owner_check():
 #         return ctx.message.author.discord.Permissions.administrator
 #     return commands.check(predicate)
 
-def maxChar():
-    def predicate(ctx):
-        kwargs = ctx.kwargs
-        for x in kwargs:
-            if len(kwargs[x]) > 35:
-                return False
-            else:
-                return True
-    return commands.check(predicate)
+def maxChar(string):
+    if len(string) > 35:
+        raise commands.CheckFailure
+    else:
+        return
+
 
 # Doesn't work
 # def oofSettingOn():
@@ -168,7 +171,7 @@ async def on_command_error(error, ctx):
     # NOTE: It's stated in the documentation that CTX, should always be first.
     # for on_command_error, The first paramater is the error, and then the context
     # so error will always come first.
-    destination = ctx.message.channel
+
     if isinstance(error, commands.MissingRequiredArgument):
         # LOG
         now = dt.now().strftime('%m/%d %H:%M ')
@@ -179,18 +182,20 @@ async def on_command_error(error, ctx):
 
         # send error to discord.
         await bot.delete_message(ctx.message)
-        await bot.send_message(destination, "You are missing some arguments.")
+        await bot.say("You are missing some arguments.")
 
 # Invoke: )tb <memetype> <topstring> <bottomstring>
 @bot.command(pass_context=True, name='tb', description = "Prints top and bottom text.", help = tbhelp)
-# @maxChar()
-async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str):
-    # gets the channel and the message from the context.
+async def topAndBottom(ctx, memeType, topString, bottomString):
+    # gets the channel the message from the context.
     destination = ctx.message.channel
     message = ctx.message
 
     # deletes message that invoked the command.
     await bot.delete_message(message)
+
+    maxChar(topString)
+    maxChar(bottomString)
 
     # check if in proper list
     if memeType in topBottomList:
@@ -201,24 +206,19 @@ async def topAndBottom(ctx, memeType : str, topString : str, bottomString : str)
 
     # Warning
     else:
-        await bot.send_message(destination, "Sorry, " + memeType + " isn't available or not in this list.")
+        await bot.say("Sorry, " + memeType + " isn't available or not in this list.")
         # LOG
         commandWarning(ctx)
 
 @topAndBottom.error
-async def topandbottom_error(ctx, error):
+async def topandbottom_error(error, ctx):
     if isinstance(error, commands.CheckFailure):
-        destination = ctx.message.channel
-        message = ctx.message
-
-        # deletes message that invoked the command.
-        await bot.delete_message(message)
-
-        await bot.send_message(destination, 'Sorry. Only 35 characters allowed to keep the meme looking good.')
+        await bot.say('Sorry. Only 35 characters allowed to keep the meme looking good.')
+        # LOG
+        commandCharLimit(ctx)
 
 # Invoke: )top <memetype> <topstring>
 @bot.command(pass_context = True, name = 'top',description = "Prints top text.", help = tophelp)
-# @maxChar()
 async def topText(ctx, memeType, *, topString):
     # gets the channel and the message from the context.
     destination = ctx.message.channel
@@ -226,8 +226,8 @@ async def topText(ctx, memeType, *, topString):
 
     await bot.delete_message(message)
 
-    if len(topString) > 35:
-        raise commands.CheckFailure
+    maxChar(topString)
+
     # check if in proper list
     if memeType in toplist:
         send = top_bottom(memeType, topString, '')
@@ -244,7 +244,7 @@ async def topText(ctx, memeType, *, topString):
 
     # Warning
     else:
-        await bot.send_message(destination, "Sorry, " + memeType + " isn't available or not in this list.")
+        await bot.say("Sorry, " + memeType + " isn't available or not in this list.")
         # LOG
         commandWarning(ctx)
 
@@ -252,16 +252,19 @@ async def topText(ctx, memeType, *, topString):
 async def topText_error(error, ctx):
     if isinstance(error, commands.CheckFailure):
         await bot.say('Sorry. Only 35 characters allowed to keep the meme looking good.')
+        # LOG
+        commandCharLimit(ctx)
 
 # Invoke: )bottom <memetype> <bottomstring>
 @bot.command(pass_context = True, name = 'bottom',description = "Prints bottom text.", help = bottomhelp)
-#@maxChar()
 async def bottomText(ctx, memeType, *, bottomString):
     # gets the channel and the message from the context.
     destination = ctx.message.channel
     message = ctx.message
 
     await bot.delete_message(message)
+
+    maxChar(bottomString)
 
     # check if in proper list
     if memeType in toplist:
@@ -279,21 +282,21 @@ async def bottomText(ctx, memeType, *, bottomString):
 
     # Warning
     else:
-        await bot.send_message(destination, "Sorry, " + memeType + " isn't available or not in this list.")
+        await bot.say("Sorry, " + memeType + " isn't available or not in this list.")
         # LOG
         commandWarning(ctx)
 
 @bottomText.error
 async def bottomText_error(error, ctx):
     if isinstance(error, commands.CheckFailure):
-        destination = ctx.message.channel
-        await bot.send(destination, 'Sorry. Only 35 characters allowed to keep the meme looking good.')
+        await bot.send('Sorry. Only 35 characters allowed to keep the meme looking good.')
+        # LOG
+        commandCharLimit(ctx)
 
 # Invoke: )list
 @bot.command(pass_context = True, name = 'list', description = "Prints a list of memes.", help = listhelp)
 async def listMemes(ctx):
-    # gets the channel and the message from the context.
-    destination = ctx.message.channel
+    # gets the message from the context.
     message = ctx.message
 
     await bot.delete_message(message)
@@ -303,17 +306,16 @@ async def listMemes(ctx):
     tmpbottom = ", ".join(bottomlist)
     tmptb = ", ".join(topBottomList)
 
-    await bot.send_message(destination, '```Top text only: ' + tmptop + '```')
-    await bot.send_message(destination, '```Bottom text only: ' + tmpbottom + '```')
-    await bot.send_message(destination, '```Top and Bottom text: ' + tmptb + '```')
+    await bot.say('```Top text only: ' + tmptop + '```')
+    await bot.say('```Bottom text only: ' + tmpbottom + '```')
+    await bot.say('```Top and Bottom text: ' + tmptb + '```')
     # LOG
     commandInfo(ctx)
 
 # Invoke: )suggest <suggestion>
 @bot.command(pass_context = True, name = 'suggest', description = "Sends the Bot Dev a suggestion.", help = suggesthelp)
 async def suggest(ctx, *, suggestion):
-    # gets the channel and the message from the context.
-    destination = ctx.message.channel
+    # gets the message from the context.
     message = ctx.message
 
     await bot.delete_message(message)
@@ -323,7 +325,7 @@ async def suggest(ctx, *, suggestion):
         now = dt.now().strftime('%m/%d %H:%M ')
         suggest.write(now + " " + str(ctx.message.author) + ' Suggestion: ' + suggestion + "\n")
 
-    await bot.send_message(destination, 'Your suggestion has been recorded.')
+    await bot.say('Your suggestion has been recorded.')
 
     # Notifies specifically LittlemanSMG#6041 of any suggestion made
     owner = discord.utils.get(bot.get_all_members(), id = '179050708908113920')
@@ -397,7 +399,6 @@ async def _top(ctx):
 
 # Invoke )viewall meme <meme>
 @viewall.command(pass_context = True, name = 'meme', help = viewallMeme)
-#@maxChar()
 async def _view(ctx, meme):
     # send specific meme template to user via PM
     if meme in toplist or meme in topBottomList or meme in bottomlist:
@@ -410,11 +411,10 @@ async def _view(ctx, meme):
         await bot.send_message(ctx.message.author, "Can't find meme: " + meme)
         #LOG
         commandWarning(ctx)
-
+# Invoke )dev
 @bot.command(pass_context = True, name = 'dev', description = 'Prints dev notes', help = devhelp)
 async def dev(ctx):
-    # gets the channel and the message from the context.
-    destination = ctx.message.channel
+    # gets the message from the context.
     message = ctx.message
 
     await bot.delete_message(message)
@@ -429,27 +429,28 @@ async def dev(ctx):
             'LOGGING: I\'m currently keeping logs of my bot usage. Log format goes as follows;\n' \
             '  <date> <server_name> <server_ID> <Username#0000> <command used>\n' \
             '```'
-    await bot.send_message(destination, notes)
+    await bot.say(notes)
 
+# Invoke )master
 @bot.command(pass_context = True, name = 'master', hidden = True)
 @is_owner_check()
 async def personalCommand(ctx, *, announcement):
-    destination = ctx.message.channel
     message = ctx.message
 
     await bot.delete_message(message)
 
-    await bot.send_message(destination, '```' + announcement + '```')
+    await bot.say('```' + announcement + '```')
 
 @personalCommand.error
 async def personalCommand_error(error, ctx):
-    destination = ctx.message.channel
-    message = ctx.message
 
-    await bot.delete_message(message)
+    if isinstance(error, commands.CheckFailure):
+        message = ctx.message
+    
+        await bot.delete_message(message)
 
-    await bot.send_message(destination, "Fuck you. *How do you even know this command exists?*")
-    masterWarning(ctx)
+        await bot.say("Fuck you. *How do you even know this command exists?*")
+        masterWarning(ctx)
 
 # @bot.command(pass_context = True, name = 'oof', description = 'Turns oof on or off')
 # @is_admin_check()
@@ -464,17 +465,17 @@ async def personalCommand_error(error, ctx):
 #         with open('command settings/oof.txt', ) as oof:
 #             oof.write('False')
 #
-#         await bot.send_message(destination, "oof setting is now off.")
+#         await bot.say("oof setting is now off.")
 #
 #     else:
 #         with open('command settings/oof.txt') as oof:
 #             oof.write('True')
 #
-#         await bot.send_message(destination, "oof setting is now off.")
+#         await bot.say("oof setting is now off.")
 
 #Run bot.
 try:
     loop = asyncio.get_event_loop()
     loop.run_until_complete(bot.run(token.strip()))
 except:
-    print ('This is probably a Runtime error from turning me off.')
+    print('This is probably a Runtime error from turning me off.')
