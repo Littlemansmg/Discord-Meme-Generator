@@ -289,7 +289,7 @@ async def bottomText(ctx, memeType, *, bottomString):
 @bottomText.error
 async def bottomText_error(error, ctx):
     if isinstance(error, commands.CheckFailure):
-        await bot.send('Sorry. Only 35 characters allowed to keep the meme looking good.')
+        await bot.say('Sorry. Only 35 characters allowed to keep the meme looking good.')
         # LOG
         commandCharLimit(ctx)
 
@@ -446,7 +446,7 @@ async def personalCommand_error(error, ctx):
 
     if isinstance(error, commands.CheckFailure):
         message = ctx.message
-    
+
         await bot.delete_message(message)
 
         await bot.say("Fuck you. *How do you even know this command exists?*")
