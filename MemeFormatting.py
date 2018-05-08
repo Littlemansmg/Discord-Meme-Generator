@@ -40,7 +40,7 @@ def top_bottom(memetype, topString, bottomString):
             bottomTextSize = font.getsize(bottomString)
             while topTextSize[0] > size[0] - 20 or bottomTextSize[0] > size[0] - 20:
                 fontSize = fontSize - 1
-                font = IFont.truetype("/Library/Fonts/Impact.ttf", fontSize)
+                font = IFont.truetype("impact.ttf", fontSize)
                 topTextSize = font.getsize(topString)
                 bottomTextSize = font.getsize(bottomString)
 
