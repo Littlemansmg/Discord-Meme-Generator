@@ -24,7 +24,7 @@ from datetime import datetime as dt
 import asyncio
 import discord
 import logging
-import unittest
+import os
 
 
 logging.basicConfig(handlers = [logging.FileHandler('discord.log', 'a', 'utf-8')], level = logging.INFO)
@@ -129,24 +129,11 @@ def is_owner_check():
         return ctx.message.author.id == '179050708908113920'
     return commands.check(predicate)
 
-# Doesn't work
-# def is_admin_check():
-#     def predicate(ctx):
-#         return ctx.message.author.discord.Permissions.administrator
-#     return commands.check(predicate)
-
 def maxChar(string):
     if len(string) > 35:
         raise commands.CheckFailure
     else:
         return
-
-
-# Doesn't work
-# def oofSettingOn():
-#     with open('command settings/oof.txt') as oof:
-#         bool = oof.readline()
-#     return bool
 
 # ---------------------------BOT-------------------------------------
 bot = commands.Bot(command_prefix=')')
@@ -155,15 +142,6 @@ bot = commands.Bot(command_prefix=')')
 @bot.event
 async def on_ready():
     await bot.change_presence(game = discord.Game(name = "Type )help for help"))
-
-# @bot.event
-# async def on_message(message):
-#     bool = oofSettingOn()
-#     content = message.content
-#     if content.lower().startswith('oof') and bool.strip() == 'True':
-#         await bot.delete_message(message)
-#
-#         await bot.send_file(message.channel, 'command settings/oof.jpg')
 
 # execute if there is an error with a command.
 @bot.event
@@ -452,30 +430,17 @@ async def personalCommand_error(error, ctx):
         await bot.say("Fuck you. *How do you even know this command exists?*")
         masterWarning(ctx)
 
-# @bot.command(pass_context = True, name = 'oof', description = 'Turns oof on or off')
-# @is_admin_check()
-# async def oofSetting(ctx):
-#     destination = ctx.message.channel
-#     message = ctx.message
-#     ison = oofSettingOn()
-#
-#     await bot.delete_message(message)
-#
-#     if ison == 'True':
-#         with open('command settings/oof.txt', ) as oof:
-#             oof.write('False')
-#
-#         await bot.say("oof setting is now off.")
-#
-#     else:
-#         with open('command settings/oof.txt') as oof:
-#             oof.write('True')
-#
-#         await bot.say("oof setting is now off.")
+if __name__ == '__main__':
+    if not os.path.exists('./Templates'):
+        os.mkdir('./Templates')
+        print('You don\'t have any templates!\n'
+              'Don\'t worry, I took the liberty to make the "./Templates" folder.'
+              'Add some images!')
+        exit()
 
-#Run bot.
-try:
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(bot.run(token.strip()))
-except:
-    print('This is probably a Runtime error from turning me off.')
+    #Run bot.
+    try:
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(bot.run(token.strip()))
+    except:
+        print('This is probably a Runtime error from turning me off.')

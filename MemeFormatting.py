@@ -4,7 +4,7 @@ import PIL.Image as Image
 import PIL.ImageFont as IFont
 import PIL.ImageDraw as IDraw
 import random as rand
-
+import os
 
 def top_bottom(memetype, topString, bottomString):
     if memetype == "mocking-spongebob":
@@ -14,6 +14,9 @@ def top_bottom(memetype, topString, bottomString):
                 bottomString += topString[i].upper()
             else:
                 bottomString += topString[i].lower()
+
+    if not os.path.exists("./New"):
+        os.mkdir("./New")
 
     try:
         with Image.open('Templates/' + memetype + '.jpg') as img:
@@ -29,7 +32,7 @@ def top_bottom(memetype, topString, bottomString):
             bottomTextSize = font.getsize(bottomString)
             while topTextSize[0] > size[0] - 20 or bottomTextSize[0] > size[0] - 20:
                 fontSize = fontSize - 1
-                font = IFont.truetype("/Library/Fonts/Impact.ttf", fontSize)
+                font = IFont.truetype("impact.ttf", fontSize)
                 topTextSize = font.getsize(topString)
                 bottomTextSize = font.getsize(bottomString)
 
