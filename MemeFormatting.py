@@ -67,6 +67,6 @@ def top_bottom(memetype, topString, bottomString):
             img.save('New/' + memetype + '_new.jpg')
 
     except Exception as e:
-        print('ERROR: ' + e)
+        print('ERROR: ' + str(e))
 
     return 'New/' + memetype + '_new.jpg'
