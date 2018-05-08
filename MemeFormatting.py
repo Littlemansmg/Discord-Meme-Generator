@@ -27,47 +27,46 @@ def top_bottom(memetype, topString, bottomString):
 
 
     try:
-        if memetype in images:
-            with Image.open('./Templates/' + str(images[memetype]) + '/' + memetype + '.jpg') as img:
-                size = img.size
-                fontSize = int(size[1] / 5)
+        with Image.open('./Templates/' + str(images[memetype]) + '/' + memetype + '.jpg') as img:
+            size = img.size
+            fontSize = int(size[1] / 5)
+            font = IFont.truetype("impact.ttf", fontSize)
+
+            edit = IDraw.Draw(img)
+
+            # find biggest font size that works
+
+            topTextSize = font.getsize(topString)
+            bottomTextSize = font.getsize(bottomString)
+            while topTextSize[0] > size[0] - 20 or bottomTextSize[0] > size[0] - 20:
+                fontSize = fontSize - 1
                 font = IFont.truetype("impact.ttf", fontSize)
-
-                edit = IDraw.Draw(img)
-
-                # find biggest font size that works
-
                 topTextSize = font.getsize(topString)
                 bottomTextSize = font.getsize(bottomString)
-                while topTextSize[0] > size[0] - 20 or bottomTextSize[0] > size[0] - 20:
-                    fontSize = fontSize - 1
-                    font = IFont.truetype("impact.ttf", fontSize)
-                    topTextSize = font.getsize(topString)
-                    bottomTextSize = font.getsize(bottomString)
 
-                # find top centered position for top text
-                topTextPositionX = (size[0] / 2) - (topTextSize[0] / 2)
-                topTextPositionY = 0
-                topTextPosition = (topTextPositionX, topTextPositionY)
+            # find top centered position for top text
+            topTextPositionX = (size[0] / 2) - (topTextSize[0] / 2)
+            topTextPositionY = 0
+            topTextPosition = (topTextPositionX, topTextPositionY)
 
-                # find bottom centered position for bottom text
-                bottomTextPositionX = (size[0] / 2) - (bottomTextSize[0] / 2)
-                bottomTextPositionY = size[1] - bottomTextSize[1] - 10
-                bottomTextPosition = (bottomTextPositionX, bottomTextPositionY)
+            # find bottom centered position for bottom text
+            bottomTextPositionX = (size[0] / 2) - (bottomTextSize[0] / 2)
+            bottomTextPositionY = size[1] - bottomTextSize[1] - 10
+            bottomTextPosition = (bottomTextPositionX, bottomTextPositionY)
 
-                # draw outlines
-                # there may be a better way
-                outlineRange = int(fontSize / 15)
-                for x in range(-outlineRange, outlineRange + 1):
-                    for y in range(-outlineRange, outlineRange + 1):
-                        edit.text((topTextPosition[0] + x, topTextPosition[1] + y), topString, (0, 0, 0), font=font)
-                        edit.text((bottomTextPosition[0] + x, bottomTextPosition[1] + y), bottomString, (0, 0, 0), font=font)
+            # draw outlines
+            # there may be a better way
+            outlineRange = int(fontSize / 15)
+            for x in range(-outlineRange, outlineRange + 1):
+                for y in range(-outlineRange, outlineRange + 1):
+                    edit.text((topTextPosition[0] + x, topTextPosition[1] + y), topString, (0, 0, 0), font=font)
+                    edit.text((bottomTextPosition[0] + x, bottomTextPosition[1] + y), bottomString, (0, 0, 0), font=font)
 
-                edit.text(topTextPosition, topString, (255, 255, 255), font=font)
-                edit.text(bottomTextPosition, bottomString, (255, 255, 255), font=font)
-                img.save('New/' + memetype + '_new.jpg')
-        else:
-            raise FileNotFoundError
-    except FileNotFoundError:
-        print('Sorry, that template doesn\'t exist.')
+            edit.text(topTextPosition, topString, (255, 255, 255), font=font)
+            edit.text(bottomTextPosition, bottomString, (255, 255, 255), font=font)
+            img.save('New/' + memetype + '_new.jpg')
+
+    except Exception as e:
+        print('ERROR: ' + e)
+
     return 'New/' + memetype + '_new.jpg'
