@@ -22,7 +22,7 @@ def top_bottom(memetype, topString, bottomString):
     images = {}
     for root, dirs, files in os.walk("./Templates"):
         for filename in files:
-            folder = root.split("\\")
+            folder = root.split("/")
             name = filename.split('.')
             images[name[0]] = folder[1]
 
