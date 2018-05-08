@@ -5,6 +5,7 @@ import PIL.ImageFont as IFont
 import PIL.ImageDraw as IDraw
 import random as rand
 import os
+import posixpath
 
 def top_bottom(memetype, topString, bottomString):
     if memetype == "mocking-spongebob":
@@ -25,7 +26,8 @@ def top_bottom(memetype, topString, bottomString):
             name = filename.split('.')
             images[name[0]] = folder[1]
 
-    location = os.path.abspath('Templates/' + images[memetype] + '/' + memetype + '.jpg')
+    location = posixpath.abspath('Templates/' + images[memetype] + '/' + memetype + '.jpg')
+    # location = os.path.abspath('Templates/' + images[memetype] + '/' + memetype + '.jpg')
     # location = os.curdir + '/Templates/' + str(images[memetype]) + '/' + memetype + '.jpg'
     try:
         with Image.open(location.strip()) as img:
