@@ -3,7 +3,10 @@ This program is built to allow discord users to type a command and then fill in 
 This image will be created and then posted in the channel that the message came from.
 
 ## Getting Started
-I'm currently working on making the bot public, but if you want to make changes yourself or selfhost here is what you can do:
+I'm currently working on making the bot public on discordbots.org. If you want to add the bot click [here](https://discordapp.com/api/oauth2/authorize?client_id=431504219866923008&permissions=67218432&scope=bot)
+ * Note about adding the bot: I try to update the bot often, so this may cause the bot to have intermitent issues for an extended period of time. 
+
+If you want to make changes yourself or selfhost here is what you can do:
 
 ### Requirements
 * Bot needs a user acount. (Don't ask me how to do this, tutorials are everywhere)
