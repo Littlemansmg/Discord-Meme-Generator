@@ -9,10 +9,19 @@ I'm currently working on making the bot public, but if you want to make changes 
 * Bot needs a user acount. (Don't ask me how to do this, tutorials are everywhere)
 * Python 3 needs to be installed on whatever device is hosting the bot.
 * Impatct font `impact.ttf` must be installed on whatever device is hosting the bot.
+  * Windows doesn't have to worry about this
+  * Linux must install it using: 
+    * ```sudo apt-get install ttf-mscorefonts-installer```
+* Pillow must be installed.
+  * ```pip install pillow```
+* Discord.py must be installed
+  * ```pip install discord.py```
 
 ### Instructions
 * Download the source code.
-* Change `bot.run(token.strip())` to `bot.run('YOUR TOKEN HERE')`
+* Make sure that all requirements are met. 
+* In DMG.py, change `bot.run(token.strip())` to `bot.run('YOUR TOKEN HERE')`
+  * You can also make your own token.txt and leave the token in
 * Powershell
   * cd into the folder where `DMG.py` is located.
   * type `python DMG.py` 
@@ -29,13 +38,12 @@ I'm currently working on making the bot public, but if you want to make changes 
 * Users can suggest edits to the bot that the owner will see.
 * Bot will not crash under user inputs.
 * Log will be created upon usage or predefined error.
+* Bot will check for `./New/` and `./Templates/` dirs. 
 
 ## TODO
 *This list is in no particular order.*
 * More meme templates.
   * This requires formatting that is a big project.
-* Set char limit.
-  * This is to keep the memes looking nice.
 * Limit command usage?
   * This is to deter spammers. All the commands will go, but it takes a while.
 * Get meme templates by file name
@@ -51,8 +59,8 @@ I'm currently working on making the bot public, but if you want to make changes 
 
 ## Built With
 * [Discord.py](https://github.com/Rapptz/discord.py) - Discord API wrapper to run a discord bot in Python.
-  * Note: This includes stuff from [discord-rewrite.py](https://discordpy.readthedocs.io/en/rewrite/index.html)
-  , and discord.py. Both Documents were used in the creation of the bot.
+  * Note: This includes content from [discord-rewrite.py](https://discordpy.readthedocs.io/en/rewrite/index.html).
+  Most of this is the documentation for discord.ext.commands
 * [Pillow](https://pillow.readthedocs.io/en/3.0.x/index.html) - Image formatting tool used to create the memes.
 
 ## Commands
