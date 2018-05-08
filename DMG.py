@@ -29,16 +29,40 @@ import os
 
 logging.basicConfig(handlers = [logging.FileHandler('discord.log', 'a', 'utf-8')], level = logging.INFO)
 
+toplist =[]
+try:
+    for root, dirs, files in os.walk("./Templates/Top"):
+        for filename in files:
+            name = filename.split('.')
+            toplist.append(name[0])
+except:
+    pass
 # memes that only use )top (top text only)
-toplist = ['mocking-spongebob']
+# toplist = ['mocking-spongebob']
 
 # memes that only use )bottom (bottom text only)
 bottomlist = []
+try:
+    for root, dirs, files in os.walk("./Templates/Bottom"):
+        for filename in files:
+            name = filename.split('.')
+            bottomlist.append(name[0])
+except:
+    pass
+
+topBottomList =[]
+try:
+    for root, dirs, files in os.walk("./Templates/TopAndBottom"):
+        for filename in files:
+            name = filename.split('.')
+            topBottomList.append(name[0])
+except:
+    pass
 
 # memes that use )top )bottom )tb
-topBottomList = [
-    '10-guy', 'bad-luck-brian', 'danger-zucc', 'good-guy-greg', 'roll-safe',
-    'simply', 'successkid', 'willy-wonka', 'zucc']
+# topBottomList = [
+#     '10-guy', 'bad-luck-brian', 'danger-zucc', 'good-guy-greg', 'roll-safe',
+#     'simply', 'successkid', 'willy-wonka', 'zucc']
 
 # read token file
 with open('token.txt') as token:
@@ -434,7 +458,7 @@ if __name__ == '__main__':
     if not os.path.exists('./Templates'):
         os.mkdir('./Templates')
         print('You don\'t have any templates!\n'
-              'Don\'t worry, I took the liberty to make the "./Templates" folder.'
+              'Don\'t worry, I took the liberty to make the "./Templates" folder.\n'
               'Add some images!')
         exit()
 
