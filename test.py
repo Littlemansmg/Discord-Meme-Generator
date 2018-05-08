@@ -4,8 +4,8 @@ ilist = []
 for root, dirs, files in os.walk("./Templates"):
     for filename in files:
         # folder = root.split("\\")
-        name = filename.split('.')
+        # name = filename.split('.')
         # images[name[0]] = folder[1]
-        ilist.append(name[0])
+        ilist.append(root)
 
 print(ilist)
