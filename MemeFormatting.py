@@ -25,7 +25,7 @@ def top_bottom(memetype, topString, bottomString):
             name = filename.split('.')
             images[name[0]] = folder[1]
 
-    location = './Templates/' + str(images[memetype]) + '/' + memetype + '.jpg'
+    location = os.curdir + '/Templates/' + str(images[memetype]) + '/' + memetype + '.jpg'
     try:
         with Image.open(location.strip()) as img:
             size = img.size
