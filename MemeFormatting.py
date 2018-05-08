@@ -26,7 +26,8 @@ def top_bottom(memetype, topString, bottomString):
             name = filename.split('.')
             images[name[0]] = folder[1]
 
-    location = posixpath.abspath('Templates/' + images[memetype] + '/' + memetype + '.jpg')
+    location = os.path.join(os.curdir, 'Templates', images[memetype], memetype + '.jpg')
+    # location = posixpath.abspath('Templates/' + images[memetype] + '/' + memetype + '.jpg')
     # location = os.path.abspath('Templates/' + images[memetype] + '/' + memetype + '.jpg')
     # location = os.curdir + '/Templates/' + str(images[memetype]) + '/' + memetype + '.jpg'
     try:
