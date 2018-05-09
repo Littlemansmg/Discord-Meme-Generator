@@ -22,14 +22,14 @@ def top_bottom(memetype, topString, bottomString):
     images = {}
     for root, dirs, files in os.walk("./Templates"):
         for filename in files:
-            folder = root.split("/")
+            # folder = root.split("/")
             name = filename.split('.')
-            images[name[0]] = folder[2]
+            images[name[0]] = root
 
     # location = os.path.join(os.curdir, 'Templates', images[memetype], memetype + '.jpg')
     # location = posixpath.abspath('Templates/' + images[memetype] + '/' + memetype + '.jpg')
     # location = os.path.abspath('Templates/' + images[memetype] + '/' + memetype + '.jpg')
-    location = os.curdir + '/Templates/' + str(images[memetype]) + '/' + memetype + '.jpg'
+    location = images[memetype] + '/' + memetype + '.jpg'
     with Image.open(location.strip()) as img:
         size = img.size
         fontSize = int(size[1] / 5)
