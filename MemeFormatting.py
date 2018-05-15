@@ -65,7 +65,4 @@ def top_bottom(memetype, topString, bottomString):
         edit.text(bottomTextPosition, bottomString, (255, 255, 255), font=font)
         img.save('New/' + memetype + '_new.jpg')
 
-
-    # print('ERROR: ' + str(e))
-
     return 'New/' + memetype + '_new.jpg'

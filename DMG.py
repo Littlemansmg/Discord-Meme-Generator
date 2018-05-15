@@ -154,7 +154,7 @@ def is_owner_check():
     return commands.check(predicate)
 
 def maxChar(string):
-    if len(string) > 35:
+    if len(string.strip()) > 35:
         raise commands.CheckFailure
     else:
         return
